@@ -1,0 +1,154 @@
+{
+  "name": "ai-toolkit",
+  "version": "1.0.0",
+  "description": "AI工具集 - 智能工具平台，提供图像处理、文本转换、格式转换等功能",
+  "main": "src/core/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "npm run serve",
+    "serve": "http-server public -p 8080 -c-1",
+    "dev": "npm run serve",
+    "build": "npm run build:js && npm run build:css",
+    "build:js": "rollup -c rollup.config.js",
+    "build:css": "postcss src/assets/css/main.css -o public/css/main.min.css",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write \"src/**/*.{js,css,html}\"",
+    "validate": "npm run lint && npm run test",
+    "clean": "rimraf dist public/css public/js",
+    "docs": "jsdoc -c jsdoc.config.json",
+    "check-deps": "npm audit",
+    "update-deps": "npm update"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ai-toolkit/ai-toolkit.git"
+  },
+  "keywords": [
+    "ai",
+    "tools",
+    "image-processing",
+    "text-processing",
+    "format-conversion",
+    "online-tools",
+    "web-app",
+    "javascript",
+    "modular"
+  ],
+  "author": "AI Toolkit Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ai-toolkit/ai-toolkit/issues"
+  },
+  "homepage": "https://ai-toolkit.example.com",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie <= 11"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.22.0",
+    "@babel/preset-env": "^7.22.0",
+    "@rollup/plugin-babel": "^6.0.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-terser": "^0.4.0",
+    "autoprefixer": "^10.4.0",
+    "cssnano": "^6.0.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.28.0",
+    "http-server": "^14.1.0",
+    "jest": "^29.6.0",
+    "jsdoc": "^4.0.0",
+    "postcss": "^8.4.0",
+    "postcss-cli": "^10.1.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.0",
+    "rollup": "^3.26.0"
+  },
+  "dependencies": {},
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
+    "testMatch": [
+      "<rootDir>/tests/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/*.test.js",
+      "!src/**/index.js"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2022": true,
+      "jest": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2022,
+      "sourceType": "module"
+    },
+    "rules": {
+      "no-console": "warn",
+      "no-debugger": "error",
+      "no-unused-vars": "warn",
+      "prefer-const": "error",
+      "no-var": "error"
+    },
+    "ignorePatterns": [
+      "dist/",
+      "public/js/",
+      "coverage/",
+      "node_modules/"
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "printWidth": 100,
+    "bracketSpacing": true,
+    "arrowParens": "avoid"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "browsers": [
+              "> 1%",
+              "last 2 versions",
+              "not dead"
+            ]
+          },
+          "modules": false
+        }
+      ]
+    ]
+  }
+}

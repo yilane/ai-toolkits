@@ -1,0 +1,200 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2024-01-01T00:00:00Z",
+  "tools": [
+    {
+      "id": "image-compress",
+      "name": "压缩图像文件",
+      "description": "压缩JPG、PNG、SVG、以及GIF，同时节省空间，保持质量。",
+      "category": "image",
+      "icon": "🗜️",
+      "iconColor": "#10B981",
+      "version": "1.0.0",
+      "module": "image/compress.js",
+      "enabled": true,
+      "isNew": false,
+      "config": {
+        "maxFileSize": "10MB",
+        "supportedFormats": ["jpg", "png", "svg", "gif"],
+        "defaultQuality": 0.8
+      }
+    },
+    {
+      "id": "image-resize",
+      "name": "调整图像的大小",
+      "description": "按照百分比或像素来定义尺寸，并调整JPG、PNG、SVG和GIF图片的尺寸。",
+      "category": "image",
+      "icon": "📏",
+      "iconColor": "#3B82F6",
+      "version": "1.0.0",
+      "module": "image/resize.js",
+      "enabled": true,
+      "isNew": false,
+      "config": {
+        "maxWidth": 4096,
+        "maxHeight": 4096,
+        "maintainAspectRatio": true
+      }
+    },
+    {
+      "id": "image-crop",
+      "name": "裁剪图片",
+      "description": "通过设定像素来裁剪图像文件。裁剪JPG文件、PNG文件或GIF图像文件。",
+      "category": "image",
+      "icon": "✂️",
+      "iconColor": "#06B6D4",
+      "version": "1.0.0",
+      "module": "image/crop.js",
+      "enabled": true,
+      "isNew": false,
+      "config": {
+        "maxFileSize": "10MB",
+        "supportedFormats": ["jpg", "png", "gif"]
+      }
+    },
+    {
+      "id": "jpg-converter",
+      "name": "转换至JPG文件",
+      "description": "轻松地把其他格式PNG、GIF、TIF、PSD、SVG、WEBP、HEIC、或者原始格式的图片至JPG格式。",
+      "category": "converter",
+      "icon": "🔄",
+      "iconColor": "#F59E0B",
+      "version": "1.0.0",
+      "module": "converter/jpg-converter.js",
+      "enabled": true,
+      "isNew": false,
+      "config": {
+        "supportedFormats": ["png", "gif", "tif", "svg", "webp"],
+        "defaultQuality": 0.9
+      }
+    },
+    {
+      "id": "format-converter",
+      "name": "JPG文件转换至",
+      "description": "转换JPG图像文件至PNG文件或GIF文件。用多个JPG文件创建一个GIF动画文件！",
+      "category": "converter",
+      "icon": "📁",
+      "iconColor": "#FBBF24",
+      "version": "1.0.0",
+      "module": "converter/format-converter.js",
+      "enabled": true,
+      "isNew": false,
+      "config": {
+        "outputFormats": ["png", "gif"],
+        "animationSupport": true
+      }
+    },
+    {
+      "id": "image-editor",
+      "name": "照片编辑器",
+      "description": "利用文字、效果、镜像或贴纸，让图片更加生动有趣。使用简便的编辑工具，满足你的创意需求。",
+      "category": "image",
+      "icon": "🎨",
+      "iconColor": "#8B5CF6",
+      "version": "1.0.0",
+      "module": "image/editor.js",
+      "enabled": true,
+      "isNew": false,
+      "config": {
+        "filters": ["blur", "brightness", "contrast", "sepia"],
+        "effects": ["vintage", "black-white", "warm", "cool"]
+      }
+    },
+    {
+      "id": "image-upscale",
+      "name": "提升图片质量",
+      "description": "以高分辨率放大图像。轻松提升JPG和PNG图片的大小，同时保持原始质量。",
+      "category": "image",
+      "icon": "📈",
+      "iconColor": "#10B981",
+      "version": "1.0.0",
+      "module": "image/upscale.js",
+      "enabled": true,
+      "isNew": true,
+      "config": {
+        "maxUpscale": 4,
+        "algorithm": "bicubic"
+      }
+    },
+    {
+      "id": "background-remove",
+      "name": "去除背景",
+      "description": "快速删除图像的背景，并保持高质量。快速检测到目标，并轻松地处理背景。",
+      "category": "image",
+      "icon": "🌿",
+      "iconColor": "#059669",
+      "version": "1.0.0",
+      "module": "image/background-remove.js",
+      "enabled": true,
+      "isNew": true,
+      "config": {
+        "outputFormat": "png",
+        "preserveTransparency": true
+      }
+    },
+    {
+      "id": "watermark",
+      "name": "给图片加水印",
+      "description": "快速给你的图片加上图像或文字水印。选择样式、透明度和位置。",
+      "category": "image",
+      "icon": "🔐",
+      "iconColor": "#1E40AF",
+      "version": "1.0.0",
+      "module": "image/watermark.js",
+      "enabled": true,
+      "isNew": false,
+      "config": {
+        "positions": ["top-left", "top-right", "bottom-left", "bottom-right", "center"],
+        "defaultOpacity": 0.7
+      }
+    },
+    {
+      "id": "meme-generator",
+      "name": "搞笑创意图片生成器",
+      "description": "通过一个简单的步骤，在线制作搞笑图片。选择你自己的模板，或者从流行的模板中选择。",
+      "category": "ai",
+      "icon": "😂",
+      "iconColor": "#DC2626",
+      "version": "1.0.0",
+      "module": "ai/meme-generator.js",
+      "enabled": true,
+      "isNew": false,
+      "config": {
+        "templates": ["drake", "distracted-boyfriend", "woman-yelling-cat"],
+        "fonts": ["Impact", "Arial", "Comic Sans MS"]
+      }
+    },
+    {
+      "id": "image-rotate",
+      "name": "旋转一个图片",
+      "description": "同时旋转多个JPG、PNG或GIF图片。每次只旋转其中数量的图片！",
+      "category": "image",
+      "icon": "🔄",
+      "iconColor": "#0891B2",
+      "version": "1.0.0",
+      "module": "image/rotate.js",
+      "enabled": true,
+      "isNew": false,
+      "config": {
+        "angles": [90, 180, 270],
+        "batchSupport": true
+      }
+    },
+    {
+      "id": "html-to-image",
+      "name": "HTML转图片",
+      "description": "将HTML的网页转换为JPG或SVG。复制并粘贴网页的URL链接，然后单击。将其转换为图片。",
+      "category": "converter",
+      "icon": "📄",
+      "iconColor": "#F59E0B",
+      "version": "1.0.0",
+      "module": "converter/html-to-image.js",
+      "enabled": true,
+      "isNew": false,
+      "config": {
+        "outputFormats": ["jpg", "png", "svg"],
+        "viewportSizes": ["1920x1080", "1366x768", "375x667"]
+      }
+    }
+  ]
+}

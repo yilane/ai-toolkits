@@ -1,0 +1,451 @@
+/* Theme Styles for AI Toolkit */
+
+/* 深色主题 */
+[data-theme="dark"] {
+    --primary-color: #4d90fe;
+    --secondary-color: #5B6AFF;
+    --accent-color: #667EEA;
+    
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d30;
+    --bg-card: #252526;
+    --bg-overlay: rgba(0, 0, 0, 0.7);
+    
+    --text-primary: #cccccc;
+    --text-secondary: #9d9d9d;
+    --text-muted: #6d6d6d;
+    --text-inverse: #333333;
+    
+    --border-color: #3e3e42;
+    --border-focus: #4d90fe;
+    --shadow-base: 0 4px 12px rgba(0,0,0,0.3);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.4);
+    --shadow-modal: 0 20px 40px rgba(0,0,0,0.6);
+    
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-info: #3B82F6;
+}
+
+/* 浅色主题 (默认) */
+[data-theme="light"] {
+    --primary-color: #4d90fe;
+    --secondary-color: #5B6AFF;
+    --accent-color: #667EEA;
+    
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F7FA;
+    --bg-card: #FFFFFF;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+    
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    --text-inverse: #FFFFFF;
+    
+    --border-color: #E5E7EB;
+    --border-focus: #4d90fe;
+    --shadow-base: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+    --shadow-modal: 0 20px 40px rgba(0,0,0,0.15);
+    
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-info: #3B82F6;
+}
+
+/* 自动主题（跟随系统） */
+[data-theme="auto"] {
+    /* 浅色模式变量 */
+    --primary-color: #4d90fe;
+    --secondary-color: #5B6AFF;
+    --accent-color: #667EEA;
+    
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F5F7FA;
+    --bg-card: #FFFFFF;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+    
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    --text-inverse: #FFFFFF;
+    
+    --border-color: #E5E7EB;
+    --border-focus: #4d90fe;
+    --shadow-base: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+    --shadow-modal: 0 20px 40px rgba(0,0,0,0.15);
+    
+    --color-success: #10B981;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-info: #3B82F6;
+}
+
+/* 深色模式下的自动主题 */
+@media (prefers-color-scheme: dark) {
+    [data-theme="auto"] {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #2d2d30;
+        --bg-card: #252526;
+        --bg-overlay: rgba(0, 0, 0, 0.7);
+        
+        --text-primary: #cccccc;
+        --text-secondary: #9d9d9d;
+        --text-muted: #6d6d6d;
+        --text-inverse: #333333;
+        
+        --border-color: #3e3e42;
+        --shadow-base: 0 4px 12px rgba(0,0,0,0.3);
+        --shadow-hover: 0 8px 24px rgba(0,0,0,0.4);
+        --shadow-modal: 0 20px 40px rgba(0,0,0,0.6);
+    }
+}
+
+/* 高对比度主题 */
+[data-theme="high-contrast"] {
+    --primary-color: #0066cc;
+    --secondary-color: #0052a3;
+    --accent-color: #003d7a;
+    
+    --bg-primary: #ffffff;
+    --bg-secondary: #f0f0f0;
+    --bg-card: #ffffff;
+    --bg-overlay: rgba(0, 0, 0, 0.8);
+    
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --text-muted: #666666;
+    --text-inverse: #ffffff;
+    
+    --border-color: #000000;
+    --border-focus: #0066cc;
+    --shadow-base: 0 2px 8px rgba(0,0,0,0.3);
+    --shadow-hover: 0 4px 16px rgba(0,0,0,0.4);
+    --shadow-modal: 0 8px 32px rgba(0,0,0,0.5);
+    
+    --color-success: #006600;
+    --color-warning: #cc6600;
+    --color-error: #cc0000;
+    --color-info: #0066cc;
+}
+
+/* 深色高对比度主题 */
+[data-theme="high-contrast-dark"] {
+    --primary-color: #66b3ff;
+    --secondary-color: #4da6ff;
+    --accent-color: #3399ff;
+    
+    --bg-primary: #000000;
+    --bg-secondary: #1a1a1a;
+    --bg-card: #000000;
+    --bg-overlay: rgba(255, 255, 255, 0.2);
+    
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #999999;
+    --text-inverse: #000000;
+    
+    --border-color: #ffffff;
+    --border-focus: #66b3ff;
+    --shadow-base: 0 2px 8px rgba(255,255,255,0.1);
+    --shadow-hover: 0 4px 16px rgba(255,255,255,0.2);
+    --shadow-modal: 0 8px 32px rgba(255,255,255,0.3);
+    
+    --color-success: #66ff66;
+    --color-warning: #ffcc66;
+    --color-error: #ff6666;
+    --color-info: #66b3ff;
+}
+
+/* 蓝色主题 */
+[data-theme="blue"] {
+    --primary-color: #2563eb;
+    --secondary-color: #1d4ed8;
+    --accent-color: #1e40af;
+    
+    --bg-primary: #f8fafc;
+    --bg-secondary: #f1f5f9;
+    --bg-card: #ffffff;
+    --bg-overlay: rgba(37, 99, 235, 0.1);
+    
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-inverse: #ffffff;
+    
+    --border-color: #e2e8f0;
+    --border-focus: #2563eb;
+    --shadow-base: 0 4px 12px rgba(37, 99, 235, 0.1);
+    --shadow-hover: 0 8px 24px rgba(37, 99, 235, 0.15);
+    --shadow-modal: 0 20px 40px rgba(37, 99, 235, 0.2);
+}
+
+/* 绿色主题 */
+[data-theme="green"] {
+    --primary-color: #16a34a;
+    --secondary-color: #15803d;
+    --accent-color: #166534;
+    
+    --bg-primary: #f7fdf7;
+    --bg-secondary: #f0fdf4;
+    --bg-card: #ffffff;
+    --bg-overlay: rgba(22, 163, 74, 0.1);
+    
+    --text-primary: #14532d;
+    --text-secondary: #166534;
+    --text-muted: #22c55e;
+    --text-inverse: #ffffff;
+    
+    --border-color: #dcfce7;
+    --border-focus: #16a34a;
+    --shadow-base: 0 4px 12px rgba(22, 163, 74, 0.1);
+    --shadow-hover: 0 8px 24px rgba(22, 163, 74, 0.15);
+    --shadow-modal: 0 20px 40px rgba(22, 163, 74, 0.2);
+}
+
+/* 紫色主题 */
+[data-theme="purple"] {
+    --primary-color: #9333ea;
+    --secondary-color: #7c3aed;
+    --accent-color: #6b21a8;
+    
+    --bg-primary: #fdfaff;
+    --bg-secondary: #faf5ff;
+    --bg-card: #ffffff;
+    --bg-overlay: rgba(147, 51, 234, 0.1);
+    
+    --text-primary: #581c87;
+    --text-secondary: #7c2d92;
+    --text-muted: #a855f7;
+    --text-inverse: #ffffff;
+    
+    --border-color: #e9d5ff;
+    --border-focus: #9333ea;
+    --shadow-base: 0 4px 12px rgba(147, 51, 234, 0.1);
+    --shadow-hover: 0 8px 24px rgba(147, 51, 234, 0.15);
+    --shadow-modal: 0 20px 40px rgba(147, 51, 234, 0.2);
+}
+
+/* 主题切换动画 */
+* {
+    transition: 
+        background-color var(--transition-base),
+        color var(--transition-base),
+        border-color var(--transition-base),
+        box-shadow var(--transition-base);
+}
+
+/* 主题特定的组件样式 */
+
+/* 深色主题下的特殊样式 */
+[data-theme="dark"] .tools-item {
+    background: linear-gradient(145deg, var(--bg-card), #2a2a2c);
+}
+
+[data-theme="dark"] .tools-item:hover {
+    background: linear-gradient(145deg, #2a2a2c, var(--bg-card));
+}
+
+[data-theme="dark"] .search-input {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .search-input::placeholder {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .loading {
+    background: var(--bg-primary);
+}
+
+/* 高对比度主题下的特殊样式 */
+[data-theme="high-contrast"] .tools-item,
+[data-theme="high-contrast-dark"] .tools-item {
+    border-width: 2px;
+    border-style: solid;
+}
+
+[data-theme="high-contrast"] .nav-link.active,
+[data-theme="high-contrast-dark"] .nav-link.active {
+    border: 2px solid var(--primary-color);
+    background: var(--primary-color);
+}
+
+[data-theme="high-contrast"] .btn,
+[data-theme="high-contrast-dark"] .btn {
+    border-width: 2px;
+    font-weight: 600;
+}
+
+/* 彩色主题的梯度效果 */
+[data-theme="blue"] .main-title,
+[data-theme="green"] .main-title,
+[data-theme="purple"] .main-title {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+[data-theme="blue"] .logo-icon,
+[data-theme="green"] .logo-icon,
+[data-theme="purple"] .logo-icon {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+/* 主题切换器样式 */
+.theme-selector {
+    position: relative;
+    display: inline-block;
+}
+
+.theme-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-hover);
+    z-index: 1001;
+    min-width: 200px;
+    padding: var(--spacing-xs) 0;
+    display: none;
+}
+
+.theme-options.open {
+    display: block;
+    animation: fadeInDown 0.3s ease;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.theme-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    font-size: 14px;
+}
+
+.theme-option:hover {
+    background: var(--bg-secondary);
+}
+
+.theme-option.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.theme-preview {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+}
+
+.theme-preview.light {
+    background: linear-gradient(45deg, #4d90fe, #FFFFFF);
+}
+
+.theme-preview.dark {
+    background: linear-gradient(45deg, #4d90fe, #1a1a1a);
+}
+
+.theme-preview.blue {
+    background: linear-gradient(45deg, #2563eb, #f8fafc);
+}
+
+.theme-preview.green {
+    background: linear-gradient(45deg, #16a34a, #f7fdf7);
+}
+
+.theme-preview.purple {
+    background: linear-gradient(45deg, #9333ea, #fdfaff);
+}
+
+.theme-preview.high-contrast {
+    background: linear-gradient(45deg, #000000, #ffffff);
+}
+
+.theme-preview.high-contrast-dark {
+    background: linear-gradient(45deg, #ffffff, #000000);
+}
+
+.theme-preview.auto {
+    background: conic-gradient(
+        #4d90fe 0deg 180deg,
+        #1a1a1a 180deg 360deg
+    );
+}
+
+/* 主题变量的CSS自定义属性覆盖 */
+.theme-variable-override {
+    /* 这个类可以用于运行时动态覆盖主题变量 */
+}
+
+/* 无障碍增强 */
+@media (prefers-contrast: high) {
+    :root {
+        /* 自动应用高对比度 */
+        --border-color: currentColor;
+        --shadow-base: 0 2px 4px rgba(0,0,0,0.5);
+        --shadow-hover: 0 4px 8px rgba(0,0,0,0.6);
+    }
+}
+
+@media (prefers-color-scheme: dark) and (prefers-contrast: high) {
+    [data-theme="auto"] {
+        /* 深色高对比度自动模式 */
+        --bg-primary: #000000;
+        --bg-secondary: #1a1a1a;
+        --bg-card: #000000;
+        --text-primary: #ffffff;
+        --text-secondary: #cccccc;
+        --text-muted: #999999;
+        --border-color: #ffffff;
+    }
+}
+
+/* 减少动画的偏好 */
+@media (prefers-reduced-motion: reduce) {
+    [data-theme] * {
+        transition-duration: 0.01ms !important;
+    }
+    
+    .theme-options {
+        animation: none !important;
+    }
+}
+
+/* 打印模式主题 */
+@media print {
+    [data-theme] {
+        --bg-primary: white !important;
+        --bg-secondary: white !important;
+        --bg-card: white !important;
+        --text-primary: black !important;
+        --text-secondary: #333 !important;
+        --text-muted: #666 !important;
+        --border-color: #ccc !important;
+        --shadow-base: none !important;
+        --shadow-hover: none !important;
+        --shadow-modal: none !important;
+    }
+}
