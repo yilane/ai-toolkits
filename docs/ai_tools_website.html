@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI工具集 - 智能工具平台</title>
+    <style>
+        :root {
+            /* 主色调 */
+            --primary-color: #4d90fe;
+            --secondary-color: #5B6AFF;
+            --accent-color: #667EEA;
+            
+            /* 背景色 */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F5F7FA;
+            --bg-card: #FFFFFF;
+            
+            /* 文字颜色 */
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            
+            /* 边框和阴影 */
+            --border-color: #E5E7EB;
+            --shadow-base: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+            
+            /* 间距 */
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d30;
+            --bg-card: #252526;
+            --text-primary: #cccccc;
+            --text-secondary: #9d9d9d;
+            --text-muted: #6d6d6d;
+            --border-color: #3e3e42;
+            --shadow-base: 0 4px 12px rgba(0,0,0,0.3);
+            --shadow-hover: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            display: grid;
+            grid-template-areas: 
+                "header header"
+                "sidebar main";
+            grid-template-columns: 240px 1fr;
+            grid-template-rows: 60px 1fr;
+            min-height: 100vh;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            grid-area: header;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--spacing-md);
+            box-shadow: var(--shadow-base);
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 var(--spacing-md);
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            padding-left: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(77, 144, 254, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: var(--spacing-xs);
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-secondary);
+            border-color: var(--primary-color);
+        }
+
+        /* 左侧导航 */
+        .sidebar {
+            grid-area: sidebar;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            padding: var(--spacing-md);
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .nav-count {
+            margin-left: auto;
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+
+        .nav-link.active .nav-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        /* 主内容区 */
+        .main {
+            grid-area: main;
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            overflow-y: auto;
+        }
+
+        .main-header {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .main-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .main-subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* 工具卡片 */
+        .tools-item {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow-base);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            border: 1px solid var(--border-color);
+        }
+
+        .tools-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-color);
+        }
+
+        .tools-item:active {
+            transform: translateY(-2px);
+        }
+
+        .tools-item-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: var(--spacing-sm);
+            transition: all 0.3s ease;
+        }
+
+        .tools-item h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+        }
+
+        .tools-item-content p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .tools-item-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-top: var(--spacing-xs);
+        }
+
+        .tools-item-badge.new {
+            background: #10B981;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-lg);
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-areas: 
+                    "header"
+                    "main";
+                grid-template-columns: 1fr;
+                grid-template-rows: 60px 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .sidebar.mobile-open {
+                display: block;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 240px;
+                height: calc(100vh - 60px);
+                z-index: 1000;
+                box-shadow: var(--shadow-hover);
+            }
+
+            .search-container {
+                margin: 0 var(--spacing-xs);
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main {
+                padding: var(--spacing-sm);
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: var(--spacing-lg);
+        }
+
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border-color);
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 移动端菜单按钮 */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 20px;
+            cursor: pointer;
+            padding: var(--spacing-xs);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部导航栏 -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">AI</div>
+                <span>AI工具集</span>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="搜索工具..." id="searchInput">
+                <span class="search-icon">🔍</span>
+            </div>
+            
+            <div class="header-actions">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+            </div>
+        </header>
+
+        <!-- 左侧导航 -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">工具分类</h2>
+            </div>
+            
+            <nav>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-category="all">
+                            <span class="nav-icon">🏠</span>
+                            <span>全部工具</span>
+                            <span class="nav-count">12</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-category="image">
+                            <span class="nav-icon">🖼️</span>
+                            <span>图像处理</span>
+                            <span class="nav-count">8</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-category="text">
+                            <span class="nav-icon">📝</span>
+                            <span>文本处理</span>
+                            <span class="nav-count">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-category="converter">
+                            <span class="nav-icon">🔄</span>
+                            <span>格式转换</span>
+                            <span class="nav-count">4</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-category="ai">
+                            <span class="nav-icon">🤖</span>
+                            <span>AI生成</span>
+                            <span class="nav-count">2</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main">
+            <div class="main-header">
+                <h1 class="main-title">AI工具集</h1>
+                <p class="main-subtitle">发现最实用的AI工具，提升您的工作效率</p>
+            </div>
+
+            <div class="tools-grid" id="toolsGrid">
+                <!-- 工具卡片将通过JavaScript动态生成 -->
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-state-icon">🔍</div>
+                <p>未找到相关工具</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 工具数据
+        const tools = [
+            {
+                id: 1,
+                name: '压缩图像文件',
+                description: '压缩JPG、PNG、SVG、以及GIF，同时节省空间，保持质量。',
+                icon: '🗜️',
+                iconColor: '#10B981',
+                category: 'image',
+                isNew: false
+            },
+            {
+                id: 2,
+                name: '调整图像的大小',
+                description: '按照百分比或像素来定义尺寸，并调整JPG、PNG、SVG和GIF图片的尺寸。',
+                icon: '📏',
+                iconColor: '#3B82F6',
+                category: 'image',
+                isNew: false
+            },
+            {
+                id: 3,
+                name: '裁剪图片',
+                description: '通过设定像素来裁剪图像文件。裁剪JPG文件、PNG文件或GIF图像文件。',
+                icon: '✂️',
+                iconColor: '#06B6D4',
+                category: 'image',
+                isNew: false
+            },
+            {
+                id: 4,
+                name: '转换至JPG文件',
+                description: '轻松地把其他格式PNG、GIF、TIF、PSD、SVG、WEBP、HEIC、或者原始格式的图片至JPG格式。',
+                icon: '🔄',
+                iconColor: '#F59E0B',
+                category: 'converter',
+                isNew: false
+            },
+            {
+                id: 5,
+                name: 'JPG文件转换至',
+                description: '转换JPG图像文件至PNG文件或GIF文件。用多个JPG文件创建一个GIF动画文件！',
+                icon: '📁',
+                iconColor: '#FBBF24',
+                category: 'converter',
+                isNew: false
+            },
+            {
+                id: 6,
+                name: '照片编辑器',
+                description: '利用文字、效果、镜像或贴纸，让图片更加生动有趣。使用简便的编辑工具，满足你的创意需求。',
+                icon: '🎨',
+                iconColor: '#8B5CF6',
+                category: 'image',
+                isNew: false
+            },
+            {
+                id: 7,
+                name: '提升图片质量',
+                description: '以高分辨率放大图像。轻松提升JPG和PNG图片的大小，同时保持原始质量。',
+                icon: '📈',
+                iconColor: '#10B981',
+                category: 'image',
+                isNew: true
+            },
+            {
+                id: 8,
+                name: '去除背景',
+                description: '快速删除图像的背景，并保持高质量。快速检测到目标，并轻松地处理背景。',
+                icon: '🌿',
+                iconColor: '#059669',
+                category: 'image',
+                isNew: true
+            },
+            {
+                id: 9,
+                name: '给图片加水印',
+                description: '快速给你的图片加上图像或文字水印。选择样式、透明度和位置。',
+                icon: '🔐',
+                iconColor: '#1E40AF',
+                category: 'image',
+                isNew: false
+            },
+            {
+                id: 10,
+                name: '搞笑创意图片生成器',
+                description: '通过一个简单的步骤，在线制作搞笑图片。选择你自己的模板，或者从流行的模板中选择。',
+                icon: '😂',
+                iconColor: '#DC2626',
+                category: 'ai',
+                isNew: false
+            },
+            {
+                id: 11,
+                name: '旋转一个图片',
+                description: '同时旋转多个JPG、PNG或GIF图片。每次只旋转其中数量的图片！',
+                icon: '🔄',
+                iconColor: '#0891B2',
+                category: 'image',
+                isNew: false
+            },
+            {
+                id: 12,
+                name: 'HTML转图片',
+                description: '将HTML的网页转换为JPG或SVG。复制并粘贴网页的URL链接，然后单击。将其转换为图片。',
+                icon: '📄',
+                iconColor: '#F59E0B',
+                category: 'converter',
+                isNew: false
+            }
+        ];
+
+        // 应用状态
+        let currentCategory = 'all';
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        let searchQuery = '';
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            renderTools();
+            bindEventListeners();
+        });
+
+        // 初始化主题
+        function initializeTheme() {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            updateThemeToggle();
+        }
+
+        // 更新主题切换按钮
+        function updateThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.textContent = currentTheme === 'light' ? '🌙' : '☀️';
+        }
+
+        // 渲染工具卡片
+        function renderTools() {
+            const toolsGrid = document.getElementById('toolsGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            // 过滤工具
+            const filteredTools = tools.filter(tool => {
+                const matchesCategory = currentCategory === 'all' || tool.category === currentCategory;
+                const matchesSearch = searchQuery === '' || 
+                    tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    tool.description.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            // 清空网格
+            toolsGrid.innerHTML = '';
+
+            if (filteredTools.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            } else {
+                emptyState.style.display = 'none';
+            }
+
+            // 生成工具卡片
+            filteredTools.forEach(tool => {
+                const toolCard = createToolCard(tool);
+                toolsGrid.appendChild(toolCard);
+            });
+        }
+
+        // 创建工具卡片
+        function createToolCard(tool) {
+            const card = document.createElement('a');
+            card.className = 'tools-item';
+            card.href = '#';
+            
+            card.innerHTML = `
+                <div class="tools-item-icon" style="background-color: ${tool.iconColor}20; color: ${tool.iconColor}">
+                    ${tool.icon}
+                </div>
+                <h3>${tool.name}</h3>
+                <div class="tools-item-content">
+                    <p>${tool.description}</p>
+                    ${tool.isNew ? '<span class="tools-item-badge new">新功能！</span>' : ''}
+                </div>
+            `;
+
+            // 添加点击事件
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert(`即将打开工具: ${tool.name}`);
+            });
+
+            return card;
+        }
+
+        // 绑定事件监听器
+        function bindEventListeners() {
+            // 主题切换
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+            // 搜索功能
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+
+            // 分类导航
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', handleCategoryChange);
+            });
+
+            // 移动端菜单
+            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+
+            // 点击外部关闭移动端菜单
+            document.addEventListener('click', function(e) {
+                const sidebar = document.getElementById('sidebar');
+                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                
+                if (window.innerWidth <= 768 && 
+                    !sidebar.contains(e.target) && 
+                    !mobileMenuBtn.contains(e.target)) {
+                    sidebar.classList.remove('mobile-open');
+                }
+            });
+        }
+
+        // 切换主题
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('theme', currentTheme);
+            updateThemeToggle();
+        }
+
+        // 处理搜索
+        function handleSearch(e) {
+            searchQuery = e.target.value.trim();
+            renderTools();
+        }
+
+        // 处理分类变更
+        function handleCategoryChange(e) {
+            e.preventDefault();
+            
+            // 更新当前分类
+            currentCategory = e.target.dataset.category;
+            
+            // 更新导航状态
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            e.target.classList.add('active');
+            
+            // 重新渲染工具
+            renderTools();
+            
+            // 移动端自动关闭侧边栏
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('mobile-open');
+            }
+        }
+
+        // 切换移动端菜单
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+
+        // 响应式处理
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('mobile-open');
+            }
+        });
+    </script>
+</body>
+</html>
