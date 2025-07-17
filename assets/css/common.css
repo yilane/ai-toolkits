@@ -1,0 +1,196 @@
+/* ==========================================================================
+   主页面样式 - 引入统一样式系统
+   ========================================================================== */
+
+/* 引入统一样式系统 */
+@import url('./base/variables.css');
+@import url('./base/reset.css');
+@import url('./components/buttons.css');
+@import url('./components/forms.css');
+@import url('./components/layout.css');
+
+/* ==========================================================================
+   主页面特定样式 - 仅包含主页面独有的样式
+   ========================================================================== */
+
+/* 主页面工具卡片的特定样式（与工具页面略有不同） */
+.tools-item {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-base);
+    transition: all var(--transition-normal);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    min-height: 120px;
+}
+
+.tools-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.tools-item:active {
+    transform: translateY(-2px);
+}
+
+.tools-item-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-xs);
+    transition: all var(--transition-normal);
+    flex-shrink: 0;
+}
+
+.tools-item h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+    flex-shrink: 0;
+}
+
+.tools-item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tools-item-content p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: auto;
+}
+
+.tools-item-badges {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+    margin-top: var(--spacing-xs);
+}
+
+.tools-item-badge {
+    display: inline-block;
+    background: var(--primary-color);
+    color: var(--text-inverse);
+    padding: 2px var(--spacing-xs);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+}
+
+.tools-item-badge.new {
+    background: var(--success-color);
+}
+
+.tools-item-badge.hot {
+    background: var(--warning-color);
+}
+
+/* 主页面特定的响应式设计 */
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 200px 1fr;
+    }
+    
+    .tools-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-areas: 
+            "header"
+            "main";
+        grid-template-columns: 1fr;
+        grid-template-rows: 60px 1fr;
+    }
+    
+    .sidebar {
+        display: none;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .header {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    .search-container {
+        max-width: 200px;
+        margin: 0 var(--spacing-sm);
+    }
+    
+    .tools-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+    
+    .tools-item {
+        min-height: 100px;
+    }
+    
+    .tools-item-icon {
+        width: 40px;
+        height: 40px;
+        font-size: var(--font-size-2xl);
+    }
+}
+
+/* 平板设备 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 桌面设备 */
+@media (min-width: 1025px) {
+    .tools-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+/* 大屏设备 */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+}
+
+/* 打印样式 */
+@media print {
+    .sidebar,
+    .header-actions,
+    .mobile-menu-btn {
+        display: none;
+    }
+    
+    .container {
+        display: block;
+    }
+    
+    .main {
+        padding: 0;
+    }
+    
+    .tools-item {
+        break-inside: avoid;
+        margin-bottom: var(--spacing-md);
+    }
+}

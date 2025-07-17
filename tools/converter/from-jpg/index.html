@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG文件转换工具 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>📁 JPG文件转换工具</h1>
+            <p>转换JPG图像文件至PNG文件或GIF文件。用多个JPG文件创建一个GIF动画文件！</p>
+        </header>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <h3>拖拽JPG图片到这里或点击上传</h3>
+                    <p>支持JPG/JPEG格式，支持多文件上传创建GIF动画</p>
+                    <input type="file" id="fileInput" accept="image/jpeg,image/jpg" multiple>
+                    <button class="upload-btn btn btn-primary" onclick="document.getElementById('fileInput').click()">选择文件</button>
+                </div>
+            </div>
+
+            <div class="settings-section" id="settingsSection" style="display: none;">
+                <h3>转换设置</h3>
+                
+                <div class="format-tabs tab-container">
+                    <button class="tab-btn active" data-format="png">转换为PNG</button>
+                    <button class="tab-btn" data-format="webp">转换为WebP</button>
+                    <button class="tab-btn" data-format="gif">创建GIF动画</button>
+                </div>
+
+                <div class="format-content active" id="pngContent">
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label>PNG质量：</label>
+                            <div class="quality-presets">
+                                <button class="preset-btn" data-quality="lossless">无损</button>
+                                <button class="preset-btn active" data-quality="optimized">优化</button>
+                                <button class="preset-btn" data-quality="compressed">压缩</button>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <label>
+                                <input type="checkbox" id="removeBackground" checked>
+                                保留透明背景
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="format-content" id="webpContent">
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label>WebP质量：</label>
+                            <div class="quality-control">
+                                <input type="range" id="webpQuality" min="10" max="100" value="80">
+                                <span id="webpQualityValue">80%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <label>
+                                <input type="checkbox" id="webpLossless">
+                                无损模式
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="format-content" id="gifContent">
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label>动画速度：</label>
+                            <div class="quality-control">
+                                <input type="range" id="gifDelay" min="50" max="2000" value="500">
+                                <span id="gifDelayValue">500ms</span>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <label>GIF尺寸：</label>
+                            <select id="gifSize">
+                                <option value="original">保持原始尺寸</option>
+                                <option value="480">480px (小)</option>
+                                <option value="720">720px (中)</option>
+                                <option value="1080">1080px (大)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <label>
+                                <input type="checkbox" id="gifLoop" checked>
+                                循环播放
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="gif-preview" id="gifPreview" style="display: none;">
+                        <h4>帧序列预览</h4>
+                        <div class="frame-list" id="frameList"></div>
+                        <div class="frame-controls">
+                            <button class="frame-btn" id="sortFrames">排序帧</button>
+                            <button class="frame-btn" id="reverseFrames">反向</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="convert-btn" id="convertBtn">开始转换</button>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>转换结果</h3>
+                <div class="conversion-stats" id="conversionStats"></div>
+                <div class="image-list" id="imageList"></div>
+                <div class="batch-actions">
+                    <button class="download-all-btn" id="downloadAllBtn">下载全部</button>
+                    <button class="clear-btn" id="clearBtn">清空列表</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-overlay" id="progressOverlay" style="display: none;">
+            <div class="progress-content">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">正在转换...</p>
+                <div class="progress-details">
+                    <span id="progressCount">0/0</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI工具集 - 智能工具平台</title>
+    <link rel="stylesheet" href="./assets/css/common.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部导航栏 -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">AI</div>
+                <span>AI工具集</span>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="搜索工具..." id="searchInput">
+                <span class="search-icon">🔍</span>
+            </div>
+            
+            <div class="header-actions">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+            </div>
+        </header>
+
+        <!-- 左侧导航 -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">工具分类</h2>
+            </div>
+            
+            <nav>
+                <ul class="nav-list" id="navList">
+                    <!-- 导航项将通过JavaScript动态生成 -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main">
+            <div class="main-header">
+                <h1 class="main-title">AI工具集</h1>
+                <p class="main-subtitle">发现最实用的AI工具，提升您的工作效率</p>
+            </div>
+
+            <div class="tools-grid" id="toolsGrid">
+                <!-- 工具卡片将通过JavaScript动态生成 -->
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-state-icon">🔍</div>
+                <p>未找到相关工具</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="./assets/js/utils.js"></script>
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>

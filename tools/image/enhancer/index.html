@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片质量提升工具 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>📈 图片质量提升工具</h1>
+            <p>以高分辨率放大图像。轻松提升JPG和PNG图片的大小，同时保持原始质量</p>
+        </header>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <h3>拖拽图片到这里或点击上传</h3>
+                    <p>支持 JPG、PNG 格式，建议文件大小小于 10MB</p>
+                    <input type="file" id="fileInput" accept="image/*">
+                    <button class="upload-btn btn btn-primary" onclick="document.getElementById('fileInput').click()">选择文件</button>
+                </div>
+            </div>
+
+            <div class="settings-section" id="settingsSection" style="display: none;">
+                <h3>增强设置</h3>
+                
+                <div class="setting-tabs">
+                    <button class="tab-btn active" data-tab="scale">放大模式</button>
+                    <button class="tab-btn" data-tab="enhance">质量增强</button>
+                    <button class="tab-btn" data-tab="custom">自定义</button>
+                </div>
+
+                <div class="tab-content active" id="scaleTab">
+                    <div class="scale-options">
+                        <div class="scale-item" data-scale="2">
+                            <div class="scale-preview">2x</div>
+                            <div class="scale-info">
+                                <h4>2倍放大</h4>
+                                <p>适合轻微提升质量</p>
+                            </div>
+                        </div>
+                        <div class="scale-item" data-scale="4">
+                            <div class="scale-preview">4x</div>
+                            <div class="scale-info">
+                                <h4>4倍放大</h4>
+                                <p>显著提升分辨率</p>
+                            </div>
+                        </div>
+                        <div class="scale-item" data-scale="8">
+                            <div class="scale-preview">8x</div>
+                            <div class="scale-info">
+                                <h4>8倍放大</h4>
+                                <p>极大提升清晰度</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="enhanceTab">
+                    <div class="enhance-options">
+                        <div class="enhance-item" data-type="photo">
+                            <div class="enhance-icon">📸</div>
+                            <div class="enhance-info">
+                                <h4>照片增强</h4>
+                                <p>优化真实照片的细节和清晰度</p>
+                            </div>
+                        </div>
+                        <div class="enhance-item" data-type="art">
+                            <div class="enhance-icon">🎨</div>
+                            <div class="enhance-info">
+                                <h4>艺术作品</h4>
+                                <p>适合插画、绘画等艺术作品</p>
+                            </div>
+                        </div>
+                        <div class="enhance-item" data-type="text">
+                            <div class="enhance-icon">📝</div>
+                            <div class="enhance-info">
+                                <h4>文档图片</h4>
+                                <p>提升文字和图表的清晰度</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="customTab">
+                    <div class="custom-settings">
+                        <div class="setting-group">
+                            <label>放大倍数：</label>
+                            <div class="scale-input">
+                                <input type="range" id="customScale" min="1" max="10" step="0.5" value="2">
+                                <span id="customScaleValue">2x</span>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label>锐化强度：</label>
+                            <div class="sharpen-input">
+                                <input type="range" id="sharpenLevel" min="0" max="100" value="50">
+                                <span id="sharpenValue">50%</span>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label>降噪程度：</label>
+                            <div class="denoise-input">
+                                <input type="range" id="denoiseLevel" min="0" max="100" value="30">
+                                <span id="denoiseValue">30%</span>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label>
+                                <input type="checkbox" id="preserveDetails" checked>
+                                保留细节
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="process-section">
+                    <div class="output-settings">
+                        <div class="setting-item">
+                            <label>输出格式：</label>
+                            <select id="outputFormat">
+                                <option value="original">保持原格式</option>
+                                <option value="png">PNG</option>
+                                <option value="jpeg">JPEG</option>
+                                <option value="webp">WebP</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>输出质量：</label>
+                            <div class="quality-slider">
+                                <input type="range" id="qualitySlider" min="70" max="100" value="95">
+                                <span id="qualityValue">95%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="enhance-btn" id="enhanceBtn">开始增强</button>
+                </div>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>增强效果预览</h3>
+                <div class="preview-container">
+                    <div class="preview-item">
+                        <h4>原始图片</h4>
+                        <div class="image-container">
+                            <img id="originalImage" alt="原始图片">
+                            <div class="image-overlay">
+                                <div class="image-info">
+                                    <span id="originalSize">0×0</span>
+                                    <span id="originalFileSize">0 KB</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-item">
+                        <h4>增强后图片</h4>
+                        <div class="image-container">
+                            <img id="enhancedImage" alt="增强后图片">
+                            <div class="image-overlay">
+                                <div class="image-info">
+                                    <span id="enhancedSize">0×0</span>
+                                    <span id="enhancedFileSize">0 KB</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="comparison-tools">
+                    <button class="compare-btn" id="toggleCompare">对比查看</button>
+                    <button class="zoom-btn" id="zoomBtn">放大查看</button>
+                </div>
+                
+                <div class="result-actions">
+                    <button class="download-btn" id="downloadBtn">下载增强图片</button>
+                    <button class="new-enhance-btn" id="newEnhanceBtn">重新增强</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-overlay" id="progressOverlay" style="display: none;">
+            <div class="progress-content">
+                <div class="progress-animation">
+                    <div class="progress-circle"></div>
+                </div>
+                <h3>AI正在增强图片...</h3>
+                <p id="progressText">正在分析图像特征</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span id="progressPercent">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

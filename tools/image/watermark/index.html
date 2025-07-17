@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水印添加工具 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>🔐 水印添加工具</h1>
+            <p>快速给你的图片加上图像或文字水印。选择样式、透明度和位置</p>
+        </header>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <h3>拖拽图片到这里或点击上传</h3>
+                    <p>支持 JPG、PNG 格式</p>
+                    <input type="file" id="fileInput" accept="image/*">
+                    <button class="upload-btn btn btn-primary" onclick="document.getElementById('fileInput').click()">选择文件</button>
+                </div>
+            </div>
+
+            <div class="settings-section" id="settingsSection" style="display: none;">
+                <h3>水印设置</h3>
+                <div class="setting-item">
+                    <label>水印文字：</label>
+                    <input type="text" id="watermarkText" placeholder="输入水印文字" value="© 2024">
+                </div>
+                <div class="setting-item">
+                    <label>字体大小：</label>
+                    <input type="range" id="fontSize" min="12" max="72" value="24">
+                    <span id="fontSizeValue">24px</span>
+                </div>
+                <div class="setting-item">
+                    <label>透明度：</label>
+                    <input type="range" id="opacity" min="0.1" max="1" step="0.1" value="0.5">
+                    <span id="opacityValue">50%</span>
+                </div>
+                <div class="setting-item">
+                    <label>位置：</label>
+                    <select id="position">
+                        <option value="bottom-right">右下角</option>
+                        <option value="bottom-left">左下角</option>
+                        <option value="top-right">右上角</option>
+                        <option value="top-left">左上角</option>
+                        <option value="center">居中</option>
+                    </select>
+                </div>
+                <button class="compress-btn" id="addWatermarkBtn">添加水印</button>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>水印预览</h3>
+                <div class="image-list" id="imageList"></div>
+                <div class="batch-actions">
+                    <button class="download-all-btn" id="downloadBtn">下载带水印图片</button>
+                    <button class="clear-btn" id="clearBtn">重新设置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图像尺寸调整工具 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>📏 图像尺寸调整工具</h1>
+            <p>按照百分比或像素来定义尺寸，并调整JPG、PNG、SVG和GIF图片的尺寸</p>
+        </header>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <h3>拖拽图片到这里或点击上传</h3>
+                    <p>支持 JPG、PNG、SVG、GIF 格式</p>
+                    <input type="file" id="fileInput" accept="image/*" multiple>
+                    <button class="upload-btn btn btn-primary" onclick="document.getElementById('fileInput').click()">选择文件</button>
+                </div>
+            </div>
+
+            <div class="settings-section" id="settingsSection" style="display: none;">
+                <h3>调整设置</h3>
+                
+                <div class="resize-tabs">
+                    <button class="tab-btn active" data-tab="percentage">按百分比</button>
+                    <button class="tab-btn" data-tab="pixels">按像素</button>
+                    <button class="tab-btn" data-tab="presets">预设尺寸</button>
+                </div>
+
+                <div class="tab-content active" id="percentageTab">
+                    <div class="setting-group">
+                        <div class="setting-item">
+                            <label>缩放比例：</label>
+                            <div class="percentage-input">
+                                <input type="number" id="scalePercent" value="100" min="1" max="500">
+                                <span>%</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>
+                                <input type="checkbox" id="maintainAspectRatio1" checked>
+                                保持宽高比
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="pixelsTab">
+                    <div class="setting-group">
+                        <div class="setting-item">
+                            <label>宽度：</label>
+                            <input type="number" id="targetWidth" min="1" placeholder="像素">
+                        </div>
+                        <div class="setting-item">
+                            <label>高度：</label>
+                            <input type="number" id="targetHeight" min="1" placeholder="像素">
+                        </div>
+                        <div class="setting-item">
+                            <label>
+                                <input type="checkbox" id="maintainAspectRatio2" checked>
+                                保持宽高比
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="presetsTab">
+                    <div class="preset-grid">
+                        <button class="preset-btn" data-width="1920" data-height="1080">1920×1080 (Full HD)</button>
+                        <button class="preset-btn" data-width="1280" data-height="720">1280×720 (HD)</button>
+                        <button class="preset-btn" data-width="800" data-height="600">800×600 (SVGA)</button>
+                        <button class="preset-btn" data-width="640" data-height="480">640×480 (VGA)</button>
+                        <button class="preset-btn" data-width="1080" data-height="1080">1080×1080 (方形)</button>
+                        <button class="preset-btn" data-width="1200" data-height="630">1200×630 (社交媒体)</button>
+                    </div>
+                </div>
+
+                <div class="quality-section">
+                    <div class="setting-item">
+                        <label>输出质量：</label>
+                        <div class="quality-slider">
+                            <input type="range" id="qualitySlider" min="10" max="100" value="90">
+                            <span id="qualityValue">90%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="process-btn" id="processBtn">开始调整</button>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>调整预览</h3>
+                <div class="image-comparison" id="imageComparison"></div>
+                <div class="batch-actions">
+                    <button class="download-all-btn" id="downloadAllBtn">下载全部</button>
+                    <button class="clear-btn" id="clearBtn">清空列表</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-overlay" id="progressOverlay" style="display: none;">
+            <div class="progress-content">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">正在调整尺寸...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

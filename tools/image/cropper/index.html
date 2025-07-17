@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图像裁剪工具 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>✂️ 图像裁剪工具</h1>
+            <p>通过设定像素来裁剪图像文件。裁剪JPG文件、PNG文件或GIF图像文件</p>
+        </header>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <h3>拖拽图片到这里或点击上传</h3>
+                    <p>支持 JPG、PNG、GIF 格式</p>
+                    <input type="file" id="fileInput" accept="image/*">
+                    <button class="upload-btn btn btn-primary" onclick="document.getElementById('fileInput').click()">选择文件</button>
+                </div>
+            </div>
+
+            <div class="editor-section" id="editorSection" style="display: none;">
+                <div class="editor-container">
+                    <div class="crop-area">
+                        <canvas id="cropCanvas"></canvas>
+                        <div class="crop-overlay" id="cropOverlay">
+                            <div class="crop-box" id="cropBox">
+                                <div class="crop-handle top-left"></div>
+                                <div class="crop-handle top-right"></div>
+                                <div class="crop-handle bottom-left"></div>
+                                <div class="crop-handle bottom-right"></div>
+                                <div class="crop-handle top-center"></div>
+                                <div class="crop-handle bottom-center"></div>
+                                <div class="crop-handle left-center"></div>
+                                <div class="crop-handle right-center"></div>
+                                <div class="crop-info" id="cropInfo">
+                                    <span id="cropDimensions">0×0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="controls-panel">
+                        <div class="control-group">
+                            <h4>裁剪区域</h4>
+                            <div class="input-row">
+                                <label>X:</label>
+                                <input type="number" id="cropX" min="0" value="0">
+                                <label>Y:</label>
+                                <input type="number" id="cropY" min="0" value="0">
+                            </div>
+                            <div class="input-row">
+                                <label>宽度:</label>
+                                <input type="number" id="cropWidth" min="1" value="100">
+                                <label>高度:</label>
+                                <input type="number" id="cropHeight" min="1" value="100">
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <h4>预设比例</h4>
+                            <div class="preset-ratios">
+                                <button class="ratio-btn" data-ratio="free">自由</button>
+                                <button class="ratio-btn" data-ratio="1:1">1:1</button>
+                                <button class="ratio-btn" data-ratio="4:3">4:3</button>
+                                <button class="ratio-btn" data-ratio="16:9">16:9</button>
+                                <button class="ratio-btn" data-ratio="3:2">3:2</button>
+                                <button class="ratio-btn" data-ratio="9:16">9:16</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <h4>输出设置</h4>
+                            <div class="setting-item">
+                                <label>输出格式：</label>
+                                <select id="outputFormat">
+                                    <option value="original">保持原格式</option>
+                                    <option value="jpeg">JPEG</option>
+                                    <option value="png">PNG</option>
+                                    <option value="webp">WebP</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label>质量：</label>
+                                <div class="quality-slider">
+                                    <input type="range" id="qualitySlider" min="10" max="100" value="90">
+                                    <span id="qualityValue">90%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="reset-btn" id="resetBtn">重置</button>
+                            <button class="crop-btn" id="cropBtn">裁剪</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>裁剪预览</h3>
+                <div class="preview-container">
+                    <div class="preview-item">
+                        <h4>原始图像</h4>
+                        <canvas id="originalCanvas"></canvas>
+                        <div class="image-info">
+                            <span id="originalInfo">0×0</span>
+                            <span id="originalSize">0 KB</span>
+                        </div>
+                    </div>
+                    <div class="preview-item">
+                        <h4>裁剪结果</h4>
+                        <canvas id="resultCanvas"></canvas>
+                        <div class="image-info">
+                            <span id="resultInfo">0×0</span>
+                            <span id="resultSize">0 KB</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-actions">
+                    <button class="download-btn" id="downloadBtn">下载裁剪图片</button>
+                    <button class="new-crop-btn" id="newCropBtn">重新裁剪</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

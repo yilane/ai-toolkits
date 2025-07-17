@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON格式化工具 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>🔧 JSON格式化工具</h1>
+            <p>格式化、验证、压缩和美化JSON数据</p>
+        </header>
+
+        <div class="result-container">
+            <!-- 左侧输入面板 -->
+            <div class="input-section">
+                <div class="input-actions">
+                    <button id="pasteBtn" class="btn btn-secondary">粘贴</button>
+                    <button id="clearBtn" class="btn btn-secondary">清空</button>
+                    <button id="formatBtn" class="btn btn-primary">格式化</button>
+                </div>
+                
+                <textarea 
+                    id="jsonInput" 
+                    class="input-textarea"
+                    placeholder="请粘贴或输入JSON数据..."
+                    spellcheck="false"
+                ></textarea>
+                
+                <div class="input-info">
+                    <div class="info-item">
+                        <span class="info-label">状态：</span>
+                        <span class="info-value" id="inputStatus">等待输入</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">字符：</span>
+                        <span class="info-value" id="inputCharCount">0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">大小：</span>
+                        <span class="info-value" id="inputSize">0 B</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧输出面板 -->
+            <div class="result-info">
+                <div class="result-actions">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="radio" name="format" value="pretty" id="prettyFormat" class="form-check-input" checked>
+                            <label for="prettyFormat" class="form-check-label">美化</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" name="format" value="compact" id="compactFormat" class="form-check-input">
+                            <label for="compactFormat" class="form-check-label">压缩</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="indentSize" class="form-label">缩进</label>
+                        <select id="indentSize" class="form-select">
+                            <option value="2" selected>2空格</option>
+                            <option value="4">4空格</option>
+                            <option value="tab">Tab</option>
+                        </select>
+                    </div>
+                    
+                    <button id="copyBtn" class="btn btn-primary">复制</button>
+                </div>
+                
+                <div class="result-preview">
+                    <pre id="jsonOutput" class="json-output">格式化后的JSON将在这里显示</pre>
+                </div>
+                
+                <div class="result-stats">
+                    <div class="info-item">
+                        <span class="info-label">状态：</span>
+                        <span class="info-value" id="outputStatus">等待格式化</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">字符：</span>
+                        <span class="info-value" id="outputCharCount">0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">大小：</span>
+                        <span class="info-value" id="outputSize">0 B</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部分析区域 -->
+        <div class="analysis-section">
+            <h3>JSON分析</h3>
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <div class="analysis-title">结构信息</div>
+                    <div class="analysis-content">
+                        <div class="analysis-item">
+                            <span class="analysis-label">数据类型：</span>
+                            <span class="analysis-value" id="dataType">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label">层级深度：</span>
+                            <span class="analysis-value" id="depth">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label">属性数量：</span>
+                            <span class="analysis-value" id="propertyCount">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analysis-card">
+                    <div class="analysis-title">数据统计</div>
+                    <div class="analysis-content">
+                        <div class="analysis-item">
+                            <span class="analysis-label">字符串：</span>
+                            <span class="analysis-value" id="stringCount">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label">数字：</span>
+                            <span class="analysis-value" id="numberCount">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label">布尔值：</span>
+                            <span class="analysis-value" id="booleanCount">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label">null值：</span>
+                            <span class="analysis-value" id="nullCount">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analysis-card">
+                    <div class="analysis-title">数组和对象</div>
+                    <div class="analysis-content">
+                        <div class="analysis-item">
+                            <span class="analysis-label">对象数量：</span>
+                            <span class="analysis-value" id="objectCount">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label">数组数量：</span>
+                            <span class="analysis-value" id="arrayCount">-</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label">最大数组长度：</span>
+                            <span class="analysis-value" id="maxArrayLength">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="error-section" id="errorSection" style="display: none;">
+            <h3>错误信息</h3>
+            <div class="error-content">
+                <div class="error-message" id="errorMessage"></div>
+                <div class="error-location" id="errorLocation"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>颜色选择器 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>🎨 颜色选择器</h1>
+            <p>选择和转换颜色格式，支持HEX、RGB、HSL等多种格式</p>
+        </header>
+
+        <div class="result-container">
+            <!-- 左侧颜色显示和控制 -->
+            <div class="input-section">
+                <div class="result-preview">
+                    <input type="color" id="colorPicker" value="#4d90fe" style="width: 100%; height: 200px; border: none; cursor: pointer;">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">色相 (H)</label>
+                    <input type="range" id="hueSlider" min="0" max="360" value="220" class="form-range">
+                    <span id="hueValue">220°</span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">饱和度 (S)</label>
+                    <input type="range" id="satSlider" min="0" max="100" value="100" class="form-range">
+                    <span id="satValue">100%</span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">明度 (L)</label>
+                    <input type="range" id="lightSlider" min="0" max="100" value="65" class="form-range">
+                    <span id="lightValue">65%</span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">透明度 (A)</label>
+                    <input type="range" id="alphaSlider" min="0" max="100" value="100" class="form-range">
+                    <span id="alphaValue">100%</span>
+                </div>
+            </div>
+
+            <!-- 右侧颜色格式 -->
+            <div class="result-info">
+                <h3>颜色格式</h3>
+                <div class="result-stats">
+                    <div class="input-group">
+                        <span class="input-group-text">HEX</span>
+                        <input type="text" id="hexInput" class="form-control" value="#4d90fe" maxlength="7">
+                        <button class="btn btn-primary" data-target="hexInput">复制</button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="input-group-text">RGB</span>
+                        <input type="text" id="rgbInput" class="form-control" value="rgb(77, 144, 254)" readonly>
+                        <button class="btn btn-primary" data-target="rgbInput">复制</button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="input-group-text">RGBA</span>
+                        <input type="text" id="rgbaInput" class="form-control" value="rgba(77, 144, 254, 1)" readonly>
+                        <button class="btn btn-primary" data-target="rgbaInput">复制</button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="input-group-text">HSL</span>
+                        <input type="text" id="hslInput" class="form-control" value="hsl(220, 100%, 65%)" readonly>
+                        <button class="btn btn-primary" data-target="hslInput">复制</button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="input-group-text">HSLA</span>
+                        <input type="text" id="hslaInput" class="form-control" value="hsla(220, 100%, 65%, 1)" readonly>
+                        <button class="btn btn-primary" data-target="hslaInput">复制</button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <span class="input-group-text">HSV</span>
+                        <input type="text" id="hsvInput" class="form-control" value="hsv(220, 70%, 100%)" readonly>
+                        <button class="btn btn-primary" data-target="hsvInput">复制</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 调色板区域 -->
+        <div class="result-section">
+            <h3>调色板</h3>
+            <div class="input-tabs">
+                <button class="input-tab active" data-tab="complementary">互补色</button>
+                <button class="input-tab" data-tab="analogous">类似色</button>
+                <button class="input-tab" data-tab="triadic">三色调</button>
+                <button class="input-tab" data-tab="tetradic">四色调</button>
+            </div>
+            <div class="palette-colors" id="paletteColors">
+                <!-- 颜色会通过JavaScript生成 -->
+            </div>
+        </div>
+
+        <!-- 历史记录区域 -->
+        <div class="result-section">
+            <h3>历史记录</h3>
+            <div class="history-colors" id="historyColors">
+                <!-- 历史颜色会通过JavaScript生成 -->
+            </div>
+            <div class="input-actions">
+                <button id="clearHistoryBtn" class="btn btn-secondary">清空历史</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>背景移除工具 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>🌿 背景移除工具</h1>
+            <p>快速删除图像的背景，并保持高质量。快速检测到目标，并轻松地处理背景</p>
+        </header>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <h3>拖拽图片到这里或点击上传</h3>
+                    <p>支持 JPG、PNG 格式，AI将自动识别主体并移除背景</p>
+                    <input type="file" id="fileInput" accept="image/*">
+                    <button class="upload-btn btn btn-primary" onclick="document.getElementById('fileInput').click()">选择文件</button>
+                </div>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>背景移除结果</h3>
+                <div class="image-list" id="imageList"></div>
+                <div class="batch-actions">
+                    <button class="download-all-btn" id="downloadBtn">下载透明背景图片</button>
+                    <button class="clear-btn" id="clearBtn">重新上传</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-overlay" id="progressOverlay" style="display: none;">
+            <div class="progress-content">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">AI正在识别主体并移除背景...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML转图片工具 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>📄 HTML转图片工具</h1>
+            <p>将HTML的网页转换为JPG或SVG。复制并粘贴网页的URL链接，然后单击。将其转换为图片</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <div class="input-tabs tab-container">
+                    <button class="tab-btn active" data-tab="url">网页URL</button>
+                    <button class="tab-btn" data-tab="html">HTML代码</button>
+                </div>
+
+                <div class="tab-content active" id="urlTab">
+                    <div class="url-input-group">
+                        <input type="url" id="urlInput" placeholder="请输入网页URL，例如：https://example.com" />
+                        <button class="load-btn btn btn-primary" id="loadUrlBtn">加载网页</button>
+                    </div>
+                    <div class="url-examples">
+                        <h4>示例网址：</h4>
+                        <div class="example-urls">
+                            <button class="example-btn" data-url="https://www.baidu.com">百度首页</button>
+                            <button class="example-btn" data-url="https://www.github.com">GitHub</button>
+                            <button class="example-btn" data-url="https://www.wikipedia.org">维基百科</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="htmlTab">
+                    <div class="html-input-group">
+                        <textarea id="htmlInput" placeholder="请输入HTML代码..."><!DOCTYPE html>
+<html>
+<head>
+    <title>示例页面</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { color: #333; text-align: center; }
+        .content { background: #f5f5f5; padding: 20px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">欢迎使用HTML转图片工具</h1>
+        <div class="content">
+            <p>这是一个示例HTML页面，您可以编辑这段代码来创建自己的内容。</p>
+            <ul>
+                <li>支持完整的HTML和CSS</li>
+                <li>实时预览效果</li>
+                <li>多种输出格式</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html></textarea>
+                        <button class="preview-btn btn btn-primary" id="previewHtmlBtn">预览HTML</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>网页预览</h3>
+                <div class="preview-container">
+                    <div class="preview-frame">
+                        <iframe id="previewFrame" sandbox="allow-same-origin"></iframe>
+                    </div>
+                    <div class="preview-info">
+                        <div class="info-item">
+                            <span>页面标题：</span>
+                            <span id="pageTitle">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span>页面尺寸：</span>
+                            <span id="pageSize">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span>加载状态：</span>
+                            <span id="loadStatus">准备就绪</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section" id="settingsSection" style="display: none;">
+                <h3>转换设置</h3>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label>输出格式：</label>
+                        <div class="format-options">
+                            <label class="radio-option">
+                                <input type="radio" name="outputFormat" value="jpg" checked>
+                                <span>JPG</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="outputFormat" value="png">
+                                <span>PNG</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="outputFormat" value="svg">
+                                <span>SVG</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label>截图尺寸：</label>
+                        <select id="screenshotSize">
+                            <option value="full">完整页面</option>
+                            <option value="1920x1080">1920×1080 (Full HD)</option>
+                            <option value="1366x768">1366×768 (常用)</option>
+                            <option value="1280x720">1280×720 (HD)</option>
+                            <option value="custom">自定义尺寸</option>
+                        </select>
+                        <div class="custom-size" id="customSize" style="display: none;">
+                            <input type="number" id="customWidth" placeholder="宽度" min="100" max="5000">
+                            <span>×</span>
+                            <input type="number" id="customHeight" placeholder="高度" min="100" max="5000">
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label>图片质量：</label>
+                        <div class="quality-control">
+                            <input type="range" id="imageQuality" min="10" max="100" value="90">
+                            <span id="imageQualityValue">90%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label>高级选项：</label>
+                        <div class="advanced-options">
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="waitForLoad" checked>
+                                <span>等待页面完全加载</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="includeBackground" checked>
+                                <span>包含背景色</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="mobileView">
+                                <span>移动端视图</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="convert-btn" id="convertBtn">生成图片</button>
+            </div>
+
+            <div class="result-section" id="resultSection" style="display: none;">
+                <h3>生成结果</h3>
+                <div class="result-container">
+                    <div class="result-preview">
+                        <img id="resultImage" alt="生成的图片">
+                    </div>
+                    <div class="result-info">
+                        <div class="result-stats">
+                            <div class="stat-item">
+                                <span>文件大小：</span>
+                                <span id="resultSize">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>图片尺寸：</span>
+                                <span id="resultDimensions">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>格式：</span>
+                                <span id="resultFormat">-</span>
+                            </div>
+                        </div>
+                        <div class="result-actions">
+                            <button class="download-btn" id="downloadBtn">下载图片</button>
+                            <button class="new-conversion-btn" id="newConversionBtn">重新转换</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-overlay" id="progressOverlay" style="display: none;">
+            <div class="progress-content">
+                <div class="loading-animation">
+                    <div class="loading-spinner"></div>
+                </div>
+                <h3>正在处理...</h3>
+                <p id="progressText">正在加载网页内容</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

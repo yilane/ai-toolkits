@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文档格式转换工具 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>📄 文档格式转换工具</h1>
+            <p>支持PDF、Word、Excel、PowerPoint等多种文档格式的相互转换</p>
+        </header>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📄</div>
+                    <h3>拖拽文档到这里或点击上传</h3>
+                    <p>支持 PDF、DOC、DOCX、XLS、XLSX、PPT、PPTX、TXT 等格式</p>
+                    <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" multiple>
+                    <button class="upload-btn btn btn-primary" onclick="document.getElementById('fileInput').click()">选择文件</button>
+                </div>
+            </div>
+
+            <div class="settings-section" id="settingsSection" style="display: none;">
+                <h3>转换设置</h3>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label>目标格式：</label>
+                        <select id="targetFormat">
+                            <option value="pdf">PDF</option>
+                            <option value="docx">Word (DOCX)</option>
+                            <option value="txt">纯文本 (TXT)</option>
+                            <option value="html">网页 (HTML)</option>
+                            <option value="rtf">RTF</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label>页面设置：</label>
+                        <select id="pageSize">
+                            <option value="A4">A4</option>
+                            <option value="A3">A3</option>
+                            <option value="Letter">Letter</option>
+                            <option value="Legal">Legal</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label>
+                            <input type="checkbox" id="keepFormatting" checked>
+                            保持原始格式
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="convert-btn" id="convertBtn">开始转换</button>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>转换结果</h3>
+                <div class="file-list" id="fileList"></div>
+                <div class="batch-actions">
+                    <button class="download-all-btn" id="downloadAllBtn">下载全部</button>
+                    <button class="clear-btn" id="clearBtn">清空列表</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-overlay" id="progressOverlay" style="display: none;">
+            <div class="progress-content">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">正在转换文档...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../../assets/js/utils.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

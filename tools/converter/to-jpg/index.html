@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>转换至JPG文件 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>🔄 转换至JPG文件</h1>
+            <p>轻松地把其他格式PNG、GIF、TIF、PSD、SVG、WEBP、HEIC、或者原始格式的图片至JPG格式</p>
+        </header>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <h3>拖拽图片到这里或点击上传</h3>
+                    <p>支持 PNG、GIF、TIF、SVG、WEBP、HEIC 等格式，支持多文件批量转换</p>
+                    <input type="file" id="fileInput" accept="image/*" multiple>
+                    <button class="upload-btn btn btn-primary" onclick="document.getElementById('fileInput').click()">选择文件</button>
+                </div>
+            </div>
+
+            <div class="settings-section" id="settingsSection" style="display: none;">
+                <h3>转换设置</h3>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label>JPG质量：</label>
+                        <div class="quality-control">
+                            <input type="range" id="jpgQuality" min="10" max="100" value="85">
+                            <span id="qualityValue">85%</span>
+                        </div>
+                        <div class="quality-presets">
+                            <button class="preset-btn" data-quality="60">低质量</button>
+                            <button class="preset-btn" data-quality="85">标准质量</button>
+                            <button class="preset-btn active" data-quality="95">高质量</button>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label>图片尺寸：</label>
+                        <div class="size-options">
+                            <label class="radio-option">
+                                <input type="radio" name="sizeOption" value="original" checked>
+                                <span>保持原始尺寸</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="sizeOption" value="resize">
+                                <span>调整尺寸</span>
+                            </label>
+                        </div>
+                        <div class="resize-controls" id="resizeControls" style="display: none;">
+                            <div class="size-inputs">
+                                <input type="number" id="resizeWidth" placeholder="宽度" min="1">
+                                <span>×</span>
+                                <input type="number" id="resizeHeight" placeholder="高度" min="1">
+                            </div>
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="keepAspectRatio" checked>
+                                <span>保持宽高比</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label>背景色：</label>
+                        <div class="background-options">
+                            <div class="color-option active" data-color="#FFFFFF">
+                                <div class="color-preview" style="background: #FFFFFF;"></div>
+                                <span>白色</span>
+                            </div>
+                            <div class="color-option" data-color="#000000">
+                                <div class="color-preview" style="background: #000000;"></div>
+                                <span>黑色</span>
+                            </div>
+                            <div class="color-option" data-color="custom">
+                                <input type="color" id="customColor" value="#FFFFFF">
+                                <span>自定义</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="convert-btn" id="convertBtn">开始转换</button>
+            </div>
+
+            <div class="preview-section" id="previewSection" style="display: none;">
+                <h3>转换结果</h3>
+                <div class="conversion-stats" id="conversionStats"></div>
+                <div class="image-list" id="imageList"></div>
+                <div class="batch-actions">
+                    <button class="download-all-btn" id="downloadAllBtn">下载全部JPG</button>
+                    <button class="clear-btn" id="clearBtn">清空列表</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-overlay" id="progressOverlay" style="display: none;">
+            <div class="progress-content">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText">正在转换...</p>
+                <div class="progress-details">
+                    <span id="progressCount">0/0</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

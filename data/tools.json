@@ -1,0 +1,245 @@
+{
+  "categories": {
+    "all": {
+      "name": "全部工具",
+      "icon": "🏠",
+      "description": "所有可用工具"
+    },
+    "image": {
+      "name": "图像处理",
+      "icon": "🖼️",
+      "description": "图像编辑、压缩、格式转换工具"
+    },
+    "text": {
+      "name": "文本处理",
+      "icon": "📝",
+      "description": "文本编辑、格式化、分析工具"
+    },
+    "converter": {
+      "name": "格式转换",
+      "icon": "🔄",
+      "description": "文件格式转换工具"
+    },
+    "ai": {
+      "name": "AI生成",
+      "icon": "🤖",
+      "description": "AI驱动的创意工具"
+    },
+    "utility": {
+      "name": "实用工具",
+      "icon": "🛠️",
+      "description": "日常使用的实用工具"
+    },
+    "custom": {
+      "name": "原创工具",
+      "icon": "⭐",
+      "description": "自主开发的原创工具"
+    }
+  },
+  "tools": [
+    {
+      "id": 1,
+      "name": "压缩图像文件",
+      "description": "压缩JPG、PNG、SVG、以及GIF，同时节省空间，保持质量。",
+      "icon": "🗜️",
+      "iconColor": "#10B981",
+      "category": "image",
+      "isNew": false,
+      "url": "./tools/image/compressor/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 2,
+      "name": "调整图像的大小",
+      "description": "按照百分比或像素来定义尺寸，并调整JPG、PNG、SVG和GIF图片的尺寸。",
+      "icon": "📏",
+      "iconColor": "#3B82F6",
+      "category": "image",
+      "isNew": false,
+      "url": "./tools/image/resizer/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 3,
+      "name": "裁剪图片",
+      "description": "通过设定像素来裁剪图像文件。裁剪JPG文件、PNG文件或GIF图像文件。",
+      "icon": "✂️",
+      "iconColor": "#06B6D4",
+      "category": "image",
+      "isNew": false,
+      "url": "./tools/image/cropper/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 4,
+      "name": "转换至JPG文件",
+      "description": "轻松地把其他格式PNG、GIF、TIF、PSD、SVG、WEBP、HEIC、或者原始格式的图片至JPG格式。",
+      "icon": "🔄",
+      "iconColor": "#F59E0B",
+      "category": "converter",
+      "isNew": false,
+      "url": "./tools/converter/to-jpg/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 5,
+      "name": "JPG文件转换至",
+      "description": "转换JPG图像文件至PNG文件或GIF文件。用多个JPG文件创建一个GIF动画文件！",
+      "icon": "📁",
+      "iconColor": "#FBBF24",
+      "category": "converter",
+      "isNew": false,
+      "url": "./tools/converter/from-jpg/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 6,
+      "name": "照片编辑器",
+      "description": "利用文字、效果、镜像或贴纸，让图片更加生动有趣。使用简便的编辑工具，满足你的创意需求。",
+      "icon": "🎨",
+      "iconColor": "#8B5CF6",
+      "category": "image",
+      "isNew": false,
+      "url": "./tools/image/editor/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 7,
+      "name": "提升图片质量",
+      "description": "以高分辨率放大图像。轻松提升JPG和PNG图片的大小，同时保持原始质量。",
+      "icon": "📈",
+      "iconColor": "#10B981",
+      "category": "image",
+      "isNew": true,
+      "url": "./tools/image/enhancer/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 8,
+      "name": "去除背景",
+      "description": "快速删除图像的背景，并保持高质量。快速检测到目标，并轻松地处理背景。",
+      "icon": "🌿",
+      "iconColor": "#059669",
+      "category": "image",
+      "isNew": true,
+      "url": "./tools/image/background-remover/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 9,
+      "name": "给图片加水印",
+      "description": "快速给你的图片加上图像或文字水印。选择样式、透明度和位置。",
+      "icon": "🔐",
+      "iconColor": "#1E40AF",
+      "category": "image",
+      "isNew": false,
+      "url": "./tools/image/watermark/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 10,
+      "name": "搞笑创意图片生成器",
+      "description": "通过一个简单的步骤，在线制作搞笑图片。选择你自己的模板，或者从流行的模板中选择。",
+      "icon": "😂",
+      "iconColor": "#DC2626",
+      "category": "ai",
+      "isNew": false,
+      "url": "#",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 11,
+      "name": "旋转一个图片",
+      "description": "同时旋转多个JPG、PNG或GIF图片。每次只旋转其中数量的图片！",
+      "icon": "🔄",
+      "iconColor": "#0891B2",
+      "category": "image",
+      "isNew": false,
+      "url": "./tools/image/rotator/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 12,
+      "name": "HTML转图片",
+      "description": "将HTML的网页转换为JPG或SVG。复制并粘贴网页的URL链接，然后单击。将其转换为图片。",
+      "icon": "📄",
+      "iconColor": "#F59E0B",
+      "category": "converter",
+      "isNew": false,
+      "url": "./tools/converter/html-to-image/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 13,
+      "name": "文字计数器",
+      "description": "实时统计文本的字符数、单词数、行数等信息，支持中英文统计分析。",
+      "icon": "📝",
+      "iconColor": "#4d90fe",
+      "category": "custom",
+      "isNew": true,
+      "url": "./tools/custom/text-counter/index.html",
+      "author": "原创",
+      "version": "1.0.0"
+    },
+    {
+      "id": 17,
+      "name": "高级文字计数器",
+      "description": "专业的文本分析工具，支持词频统计、语言检测、阅读时间估算等高级功能。",
+      "icon": "📊",
+      "iconColor": "#8B5CF6",
+      "category": "custom",
+      "isNew": true,
+      "url": "./tools/custom/word-counter/index.html",
+      "author": "原创",
+      "version": "1.0.0"
+    },
+    {
+      "id": 14,
+      "name": "颜色选择器",
+      "description": "选择和转换颜色格式，支持HEX、RGB、HSL等多种格式，生成调色板。",
+      "icon": "🎨",
+      "iconColor": "#667EEA",
+      "category": "custom",
+      "isNew": true,
+      "url": "./tools/custom/color-picker/index.html",
+      "author": "原创",
+      "version": "1.0.0"
+    },
+    {
+      "id": 15,
+      "name": "二维码生成器",
+      "description": "快速生成各种类型的二维码，支持文本、链接、WiFi、邮箱等多种格式。",
+      "icon": "📱",
+      "iconColor": "#10B981",
+      "category": "custom",
+      "isNew": true,
+      "url": "./tools/custom/qr-generator/index.html",
+      "author": "原创",
+      "version": "1.0.0"
+    },
+    {
+      "id": 16,
+      "name": "JSON格式化",
+      "description": "格式化、验证、压缩和美化JSON数据，提供详细的数据结构分析。",
+      "icon": "🔧",
+      "iconColor": "#F59E0B",
+      "category": "custom",
+      "isNew": true,
+      "url": "./tools/custom/json-formatter/index.html",
+      "author": "原创",
+      "version": "1.0.0"
+    }
+  ]
+}

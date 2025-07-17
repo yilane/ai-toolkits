@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>照片编辑器 - AI工具集</title>
+    <link rel="stylesheet" href="../../../assets/css/tools-unified.css">
+</head>
+<body>
+    <div class="tool-container">
+        <a href="../../../index.html" class="back-button">← 返回</a>
+        <header class="tool-header">
+            <h1>🎨 照片编辑器</h1>
+            <p>利用文字、效果、镜像或贴纸，让图片更加生动有趣。使用简便的编辑工具，满足你的创意需求</p>
+        </header>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <h3>拖拽图片到这里或点击上传</h3>
+                    <p>支持 JPG、PNG、GIF 格式</p>
+                    <input type="file" id="fileInput" accept="image/*">
+                    <button class="upload-btn btn btn-primary" onclick="document.getElementById('fileInput').click()">选择文件</button>
+                </div>
+            </div>
+
+            <div class="editor-section" id="editorSection" style="display: none;">
+                <div class="editor-container">
+                    <div class="toolbar">
+                        <div class="tool-group">
+                            <button class="tool-btn active" data-tool="select" title="选择">
+                                <span>🖱️</span>
+                            </button>
+                            <button class="tool-btn" data-tool="text" title="文字">
+                                <span>📝</span>
+                            </button>
+                            <button class="tool-btn" data-tool="draw" title="画笔">
+                                <span>🖌️</span>
+                            </button>
+                            <button class="tool-btn" data-tool="filter" title="滤镜">
+                                <span>🎭</span>
+                            </button>
+                            <button class="tool-btn" data-tool="sticker" title="贴纸">
+                                <span>😀</span>
+                            </button>
+                        </div>
+                        
+                        <div class="action-group">
+                            <button class="action-btn" id="undoBtn" title="撤销">↶</button>
+                            <button class="action-btn" id="redoBtn" title="重做">↷</button>
+                            <button class="action-btn" id="resetBtn" title="重置">🔄</button>
+                            <button class="action-btn" id="downloadBtn" title="下载">💾</button>
+                        </div>
+                    </div>
+
+                    <div class="editor-workspace">
+                        <div class="canvas-container">
+                            <canvas id="mainCanvas"></canvas>
+                            <canvas id="overlayCanvas"></canvas>
+                        </div>
+                        
+                        <div class="properties-panel" id="propertiesPanel">
+                            <!-- 选择工具面板 -->
+                            <div class="tool-panel" id="selectPanel">
+                                <h3>选择工具</h3>
+                                <p>点击图像上的元素进行编辑</p>
+                            </div>
+
+                            <!-- 文字工具面板 -->
+                            <div class="tool-panel" id="textPanel" style="display: none;">
+                                <h3>文字工具</h3>
+                                <div class="panel-group">
+                                    <label>文字内容：</label>
+                                    <textarea id="textContent" placeholder="输入文字..."></textarea>
+                                </div>
+                                <div class="panel-group">
+                                    <label>字体大小：</label>
+                                    <input type="range" id="fontSize" min="12" max="100" value="24">
+                                    <span id="fontSizeValue">24px</span>
+                                </div>
+                                <div class="panel-group">
+                                    <label>字体样式：</label>
+                                    <select id="fontFamily">
+                                        <option value="Arial">Arial</option>
+                                        <option value="Microsoft YaHei">微软雅黑</option>
+                                        <option value="SimHei">黑体</option>
+                                        <option value="SimSun">宋体</option>
+                                    </select>
+                                </div>
+                                <div class="panel-group">
+                                    <label>文字颜色：</label>
+                                    <input type="color" id="textColor" value="#000000">
+                                </div>
+                                <div class="panel-group">
+                                    <label>文字样式：</label>
+                                    <div class="style-buttons">
+                                        <button class="style-btn" id="boldBtn" data-style="bold">B</button>
+                                        <button class="style-btn" id="italicBtn" data-style="italic">I</button>
+                                        <button class="style-btn" id="underlineBtn" data-style="underline">U</button>
+                                    </div>
+                                </div>
+                                <button class="apply-btn" id="addTextBtn">添加文字</button>
+                            </div>
+
+                            <!-- 画笔工具面板 -->
+                            <div class="tool-panel" id="drawPanel" style="display: none;">
+                                <h3>画笔工具</h3>
+                                <div class="panel-group">
+                                    <label>画笔大小：</label>
+                                    <input type="range" id="brushSize" min="1" max="50" value="5">
+                                    <span id="brushSizeValue">5px</span>
+                                </div>
+                                <div class="panel-group">
+                                    <label>画笔颜色：</label>
+                                    <input type="color" id="brushColor" value="#ff0000">
+                                </div>
+                                <div class="panel-group">
+                                    <label>画笔类型：</label>
+                                    <select id="brushType">
+                                        <option value="round">圆形</option>
+                                        <option value="square">方形</option>
+                                    </select>
+                                </div>
+                                <div class="panel-group">
+                                    <label>不透明度：</label>
+                                    <input type="range" id="brushOpacity" min="0.1" max="1" step="0.1" value="1">
+                                    <span id="brushOpacityValue">100%</span>
+                                </div>
+                                <button class="apply-btn" id="clearDrawBtn">清除画笔</button>
+                            </div>
+
+                            <!-- 滤镜工具面板 -->
+                            <div class="tool-panel" id="filterPanel" style="display: none;">
+                                <h3>滤镜效果</h3>
+                                <div class="filter-grid">
+                                    <button class="filter-btn" data-filter="none">原图</button>
+                                    <button class="filter-btn" data-filter="grayscale">黑白</button>
+                                    <button class="filter-btn" data-filter="sepia">复古</button>
+                                    <button class="filter-btn" data-filter="invert">反色</button>
+                                    <button class="filter-btn" data-filter="blur">模糊</button>
+                                    <button class="filter-btn" data-filter="brightness">亮度</button>
+                                    <button class="filter-btn" data-filter="contrast">对比度</button>
+                                    <button class="filter-btn" data-filter="saturate">饱和度</button>
+                                </div>
+                                
+                                <div id="filterControls" style="display: none;">
+                                    <div class="panel-group">
+                                        <label id="filterLabel">强度：</label>
+                                        <input type="range" id="filterIntensity" min="0" max="200" value="100">
+                                        <span id="filterValue">100%</span>
+                                    </div>
+                                    <button class="apply-btn" id="applyFilterBtn">应用滤镜</button>
+                                </div>
+                            </div>
+
+                            <!-- 贴纸工具面板 -->
+                            <div class="tool-panel" id="stickerPanel" style="display: none;">
+                                <h3>贴纸工具</h3>
+                                <div class="sticker-grid">
+                                    <div class="sticker-item" data-sticker="😀">😀</div>
+                                    <div class="sticker-item" data-sticker="😍">😍</div>
+                                    <div class="sticker-item" data-sticker="🥰">🥰</div>
+                                    <div class="sticker-item" data-sticker="😎">😎</div>
+                                    <div class="sticker-item" data-sticker="🤗">🤗</div>
+                                    <div class="sticker-item" data-sticker="😂">😂</div>
+                                    <div class="sticker-item" data-sticker="🤔">🤔</div>
+                                    <div class="sticker-item" data-sticker="😴">😴</div>
+                                    <div class="sticker-item" data-sticker="❤️">❤️</div>
+                                    <div class="sticker-item" data-sticker="⭐">⭐</div>
+                                    <div class="sticker-item" data-sticker="🎉">🎉</div>
+                                    <div class="sticker-item" data-sticker="🔥">🔥</div>
+                                </div>
+                                <div class="panel-group">
+                                    <label>贴纸大小：</label>
+                                    <input type="range" id="stickerSize" min="20" max="150" value="60">
+                                    <span id="stickerSizeValue">60px</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="export-modal" id="exportModal" style="display: none;">
+            <div class="modal-content">
+                <h3>导出设置</h3>
+                <div class="export-options">
+                    <div class="option-group">
+                        <label>输出格式：</label>
+                        <select id="exportFormat">
+                            <option value="png">PNG</option>
+                            <option value="jpeg">JPEG</option>
+                            <option value="webp">WebP</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label>质量：</label>
+                        <input type="range" id="exportQuality" min="10" max="100" value="90">
+                        <span id="exportQualityValue">90%</span>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="cancel-btn" id="cancelExportBtn">取消</button>
+                    <button class="confirm-btn" id="confirmExportBtn">导出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
