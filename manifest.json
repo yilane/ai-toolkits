@@ -1,0 +1,199 @@
+{
+  "name": "AI工具集 - 智能工具平台",
+  "short_name": "AI工具集",
+  "description": "发现最实用的AI工具，提升您的工作效率。包含图像处理、文本处理、格式转换等多种实用工具。",
+  "version": "1.0.0",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#4d90fe",
+  "background_color": "#ffffff",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "categories": [
+    "productivity",
+    "utilities",
+    "tools"
+  ],
+  "icons": [
+    {
+      "src": "/assets/images/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/images/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/images/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "桌面版主界面"
+    },
+    {
+      "src": "/assets/images/screenshot-mobile.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "移动版主界面"
+    },
+    {
+      "src": "/assets/images/screenshot-tools.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "工具页面"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "文字计数器",
+      "short_name": "计数器",
+      "description": "快速统计文本字符数和单词数",
+      "url": "/tools/custom/word-counter/",
+      "icons": [
+        {
+          "src": "/assets/images/shortcut-counter.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "二维码生成器",
+      "short_name": "二维码",
+      "description": "生成各种类型的二维码",
+      "url": "/tools/custom/qr-generator/",
+      "icons": [
+        {
+          "src": "/assets/images/shortcut-qr.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "颜色选择器",
+      "short_name": "颜色",
+      "description": "选择和转换颜色格式",
+      "url": "/tools/custom/color-picker/",
+      "icons": [
+        {
+          "src": "/assets/images/shortcut-color.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "JSON格式化",
+      "short_name": "JSON",
+      "description": "格式化和验证JSON数据",
+      "url": "/tools/custom/json-formatter/",
+      "icons": [
+        {
+          "src": "/assets/images/shortcut-json.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "protocol_handlers": [
+    {
+      "protocol": "web+aitoolkit",
+      "url": "/tools/?tool=%s"
+    }
+  ],
+  "share_target": {
+    "action": "/tools/custom/text-counter/",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "/tools/custom/json-formatter/",
+      "accept": {
+        "application/json": [".json"]
+      }
+    },
+    {
+      "action": "/tools/image/compressor/",
+      "accept": {
+        "image/png": [".png"],
+        "image/jpeg": [".jpg", ".jpeg"],
+        "image/gif": [".gif"],
+        "image/webp": [".webp"]
+      }
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "handle_links": "preferred"
+} 

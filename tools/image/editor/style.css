@@ -124,13 +124,16 @@ body {
     padding: 12px 24px;
     border-radius: var(--radius);
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(77, 144, 254, 0.3);
 }
 
 .upload-btn:hover {
     background: var(--secondary-color);
     transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(77, 144, 254, 0.4);
 }
 
 .editor-section {
