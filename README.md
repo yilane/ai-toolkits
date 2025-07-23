@@ -202,7 +202,6 @@ document.addEventListener('DOMContentLoaded', function() {
 - 旋转图片
 
 ### 文本处理工具
-- 文字计数器（原创）
 - 高级文本分析
 
 ### 格式转换工具

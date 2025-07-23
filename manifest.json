@@ -164,7 +164,7 @@
     }
   ],
   "share_target": {
-    "action": "/tools/custom/text-counter/",
+    "action": "/tools/custom/word-counter/",
     "method": "GET",
     "params": {
       "title": "title",
