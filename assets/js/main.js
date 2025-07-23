@@ -189,13 +189,8 @@ class ToolsApp {
     // 处理工具点击
     handleToolClick(tool) {
         if (tool.url) {
-            // 如果是相对路径，在当前窗口打开
-            if (tool.url.startsWith('./')) {
-                window.location.href = tool.url;
-            } else {
-                // 如果是绝对路径，在新窗口打开
-                window.open(tool.url, '_blank');
-            }
+            // 所有工具都在新标签页打开
+            window.open(tool.url, '_blank');
         } else {
             AppUtils.showMessage(`即将打开工具: ${tool.name}`, 'info');
         }
