@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字转大写工具</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.converter-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.input-section, .output-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+textarea:read-only {
+    background-color: #f9fafb;
+    color: #6b7280;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #10b981;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .header {
+        padding: 20px;
+    }
+    
+    .converter-container {
+        padding: 20px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔢 数字转大写工具</h1>
+            <p>阿拉伯数字转换为中文大写数字</p>
+        </div>
+        
+        <div class="converter-container">
+            <div class="input-section">
+                <label for="numberInput">输入数字</label>
+                <input type="text" id="numberInput" placeholder="输入数字，例如：12345.67">
+                <button id="convertBtn" class="btn btn-primary">转换为大写</button>
+            </div>
+            
+            <div class="output-section">
+                <label for="chineseOutput">中文大写</label>
+                <textarea id="chineseOutput" readonly placeholder="转换结果..."></textarea>
+                <div class="buttons">
+                    <button id="copyBtn" class="btn btn-secondary">复制结果</button>
+                    <button id="clearBtn" class="btn btn-danger">清空</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+class NumberConverter {
+    constructor() {
+        this.numberInput = document.getElementById('numberInput');
+        this.chineseOutput = document.getElementById('chineseOutput');
+        this.convertBtn = document.getElementById('convertBtn');
+        this.copyBtn = document.getElementById('copyBtn');
+        this.clearBtn = document.getElementById('clearBtn');
+        
+        // 数字对照表
+        this.digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+        this.units = ['', '十', '百', '千'];
+        this.bigUnits = ['', '万', '亿', '兆'];
+        
+        this.init();
+    }
+    
+    init() {
+        this.convertBtn.addEventListener('click', () => this.convertNumber());
+        this.copyBtn.addEventListener('click', () => this.copyResult());
+        this.clearBtn.addEventListener('click', () => this.clearAll());
+        this.numberInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.convertNumber();
+            }
+        });
+    }
+    
+    convertNumber() {
+        const input = this.numberInput.value.trim();
+        if (!input) {
+            alert('请输入数字');
+            return;
+        }
+        
+        if (!/^\d+(\.\d+)?$/.test(input)) {
+            alert('请输入有效的数字');
+            return;
+        }
+        
+        const num = parseFloat(input);
+        if (num >= 1000000000000) {
+            alert('数字过大，请输入小于1万亿的数字');
+            return;
+        }
+        
+        const result = this.numberToChinese(num);
+        this.chineseOutput.value = result;
+    }
+    
+    numberToChinese(num) {
+        if (num === 0) return '零';
+        
+        const parts = num.toString().split('.');
+        const integerPart = parseInt(parts[0]);
+        const decimalPart = parts[1];
+        
+        let result = this.integerToChinese(integerPart);
+        
+        if (decimalPart) {
+            result += '点';
+            for (let digit of decimalPart) {
+                result += this.digits[parseInt(digit)];
+            }
+        }
+        
+        return result;
+    }
+    
+    integerToChinese(num) {
+        if (num === 0) return '零';
+        
+        const str = num.toString();
+        const len = str.length;
+        let result = '';
+        let zeroFlag = false;
+        
+        for (let i = 0; i < len; i++) {
+            const digit = parseInt(str[i]);
+            const pos = len - i - 1;
+            const unitPos = pos % 4;
+            const bigUnitPos = Math.floor(pos / 4);
+            
+            if (digit === 0) {
+                zeroFlag = true;
+            } else {
+                if (zeroFlag && result) {
+                    result += '零';
+                }
+                result += this.digits[digit];
+                if (unitPos > 0) {
+                    result += this.units[unitPos];
+                }
+                zeroFlag = false;
+            }
+            
+            if (unitPos === 0 && bigUnitPos > 0 && (num % Math.pow(10000, bigUnitPos)) !== 0) {
+                result += this.bigUnits[bigUnitPos];
+            }
+        }
+        
+        return result;
+    }
+    
+    async copyResult() {
+        const result = this.chineseOutput.value;
+        if (!result) {
+            alert('没有可复制的内容');
+            return;
+        }
+        
+        try {
+            await navigator.clipboard.writeText(result);
+            alert('已复制到剪贴板');
+        } catch (error) {
+            this.chineseOutput.select();
+            document.execCommand('copy');
+            alert('已复制到剪贴板');
+        }
+    }
+    
+    clearAll() {
+        this.numberInput.value = '';
+        this.chineseOutput.value = '';
+        this.numberInput.focus();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new NumberConverter();
+});
+    </script>
+</body>
+</html>

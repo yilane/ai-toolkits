@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII表格生成工具</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding: 30px;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+input[type="number"], select {
+    padding: 10px 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+input[type="number"]:focus, select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #10b981;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.output-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.output-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.output-header h3 {
+    font-size: 16px;
+    color: #374151;
+    font-weight: 600;
+}
+
+.format-tabs {
+    display: flex;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 2px;
+}
+
+.format-tab {
+    padding: 6px 12px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.format-tab.active {
+    background: white;
+    color: #667eea;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#outputArea {
+    flex: 1;
+    min-height: 300px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 15px;
+    overflow: auto;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.example-section {
+    grid-column: 1 / -1;
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 16px;
+    margin-top: 20px;
+}
+
+.example-section h3 {
+    font-size: 18px;
+    color: #374151;
+    margin-bottom: 15px;
+}
+
+.example-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.example-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.example-item h4 {
+    font-size: 14px;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.example-item pre {
+    font-size: 11px;
+    line-height: 1.3;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 8px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .header {
+        padding: 20px;
+    }
+    
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 ASCII表格生成工具</h1>
+            <p>生成ASCII表格和Markdown表格，支持自定义格式</p>
+        </div>
+        
+        <div class="tool-container">
+            <div class="input-section">
+                <div class="form-group">
+                    <label>表格尺寸</label>
+                    <div class="form-row">
+                        <div>
+                            <label for="rows">行数</label>
+                            <input type="number" id="rows" min="1" max="20" value="3">
+                        </div>
+                        <div>
+                            <label for="cols">列数</label>
+                            <input type="number" id="cols" min="1" max="10" value="3">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tableData">表格数据（每行一条记录，用逗号分隔）</label>
+                    <textarea id="tableData" placeholder="姓名,年龄,职业
+张三,25,工程师
+李四,30,设计师
+王五,28,产品经理"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tableStyle">表格样式</label>
+                    <select id="tableStyle">
+                        <option value="ascii">ASCII边框</option>
+                        <option value="markdown">Markdown格式</option>
+                        <option value="simple">简单边框</option>
+                        <option value="grid">网格样式</option>
+                    </select>
+                </div>
+                
+                <button id="generateBtn" class="btn btn-primary">
+                    <span>🎯</span> 生成表格
+                </button>
+            </div>
+            
+            <div class="output-section">
+                <div class="output-header">
+                    <h3>生成结果</h3>
+                    <div class="format-tabs">
+                        <button class="format-tab active" data-format="preview">预览</button>
+                        <button class="format-tab" data-format="code">代码</button>
+                    </div>
+                </div>
+                
+                <div id="outputArea"></div>
+                
+                <div class="action-buttons">
+                    <button id="copyBtn" class="btn btn-secondary">
+                        <span>📋</span> 复制结果
+                    </button>
+                    <button id="clearBtn" class="btn btn-secondary">
+                        <span>🗑️</span> 清空
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="example-section">
+            <h3>📝 格式示例</h3>
+            <div class="example-grid">
+                <div class="example-item">
+                    <h4>ASCII边框</h4>
+                    <pre>+--------+-----+----------+
+| 姓名   | 年龄| 职业     |
++--------+-----+----------+
+| 张三   | 25  | 工程师   |
+| 李四   | 30  | 设计师   |
++--------+-----+----------+</pre>
+                </div>
+                
+                <div class="example-item">
+                    <h4>Markdown格式</h4>
+                    <pre>| 姓名 | 年龄 | 职业 |
+|------|------|------|
+| 张三 | 25   | 工程师 |
+| 李四 | 30   | 设计师 |</pre>
+                </div>
+                
+                <div class="example-item">
+                    <h4>简单边框</h4>
+                    <pre>姓名     年龄  职业
+-------- ----- --------
+张三     25    工程师
+李四     30    设计师</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+class ASCIITableGenerator {
+    constructor() {
+        this.rows = document.getElementById('rows');
+        this.cols = document.getElementById('cols');
+        this.tableData = document.getElementById('tableData');
+        this.tableStyle = document.getElementById('tableStyle');
+        this.generateBtn = document.getElementById('generateBtn');
+        this.outputArea = document.getElementById('outputArea');
+        this.copyBtn = document.getElementById('copyBtn');
+        this.clearBtn = document.getElementById('clearBtn');
+        this.formatTabs = document.querySelectorAll('.format-tab');
+        
+        this.currentFormat = 'preview';
+        this.lastGenerated = '';
+        
+        this.init();
+    }
+    
+    init() {
+        this.generateBtn.addEventListener('click', () => this.generateTable());
+        this.copyBtn.addEventListener('click', () => this.copyResult());
+        this.clearBtn.addEventListener('click', () => this.clearAll());
+        
+        this.formatTabs.forEach(tab => {
+            tab.addEventListener('click', () => this.switchFormat(tab.dataset.format));
+        });
+        
+        // 示例数据
+        this.tableData.value = `姓名,年龄,职业
+张三,25,工程师
+李四,30,设计师
+王五,28,产品经理`;
+    }
+    
+    generateTable() {
+        const data = this.parseTableData();
+        if (!data || data.length === 0) {
+            this.showAlert('请输入表格数据');
+            return;
+        }
+        
+        const style = this.tableStyle.value;
+        let table = '';
+        
+        switch (style) {
+            case 'ascii':
+                table = this.generateASCIITable(data);
+                break;
+            case 'markdown':
+                table = this.generateMarkdownTable(data);
+                break;
+            case 'simple':
+                table = this.generateSimpleTable(data);
+                break;
+            case 'grid':
+                table = this.generateGridTable(data);
+                break;
+        }
+        
+        this.lastGenerated = table;
+        this.displayResult(table);
+        this.showAlert('表格生成成功');
+    }
+    
+    parseTableData() {
+        const text = this.tableData.value.trim();
+        if (!text) return null;
+        
+        const lines = text.split('\n').filter(line => line.trim());
+        return lines.map(line => line.split(',').map(cell => cell.trim()));
+    }
+    
+    generateASCIITable(data) {
+        if (!data || data.length === 0) return '';
+        
+        const colWidths = this.calculateColumnWidths(data);
+        let table = '';
+        
+        // 顶部边框
+        table += '+' + colWidths.map(w => '-'.repeat(w + 2)).join('+') + '+\n';
+        
+        // 表头
+        if (data.length > 0) {
+            table += '|' + data[0].map((cell, i) => 
+                ` ${this.padString(cell, colWidths[i])} `
+            ).join('|') + '|\n';
+            
+            // 分隔线
+            table += '+' + colWidths.map(w => '-'.repeat(w + 2)).join('+') + '+\n';
+            
+            // 数据行
+            for (let i = 1; i < data.length; i++) {
+                table += '|' + data[i].map((cell, j) => 
+                    ` ${this.padString(cell || '', colWidths[j])} `
+                ).join('|') + '|\n';
+            }
+        }
+        
+        // 底部边框
+        table += '+' + colWidths.map(w => '-'.repeat(w + 2)).join('+') + '+';
+        
+        return table;
+    }
+    
+    generateMarkdownTable(data) {
+        if (!data || data.length === 0) return '';
+        
+        let table = '';
+        
+        // 表头
+        if (data.length > 0) {
+            table += '| ' + data[0].join(' | ') + ' |\n';
+            table += '|' + data[0].map(() => '------').join('|') + '|\n';
+            
+            // 数据行
+            for (let i = 1; i < data.length; i++) {
+                table += '| ' + data[i].join(' | ') + ' |\n';
+            }
+        }
+        
+        return table.trim();
+    }
+    
+    generateSimpleTable(data) {
+        if (!data || data.length === 0) return '';
+        
+        const colWidths = this.calculateColumnWidths(data);
+        let table = '';
+        
+        // 表头
+        if (data.length > 0) {
+            table += data[0].map((cell, i) => 
+                this.padString(cell, colWidths[i])
+            ).join('  ') + '\n';
+            
+            // 分隔线
+            table += colWidths.map(w => '-'.repeat(w)).join('  ') + '\n';
+            
+            // 数据行
+            for (let i = 1; i < data.length; i++) {
+                table += data[i].map((cell, j) => 
+                    this.padString(cell || '', colWidths[j])
+                ).join('  ') + '\n';
+            }
+        }
+        
+        return table.trim();
+    }
+    
+    generateGridTable(data) {
+        if (!data || data.length === 0) return '';
+        
+        const colWidths = this.calculateColumnWidths(data);
+        let table = '';
+        
+        // 顶部边框
+        table += '┌' + colWidths.map(w => '─'.repeat(w + 2)).join('┬') + '┐\n';
+        
+        // 表头
+        if (data.length > 0) {
+            table += '│' + data[0].map((cell, i) => 
+                ` ${this.padString(cell, colWidths[i])} `
+            ).join('│') + '│\n';
+            
+            // 分隔线
+            table += '├' + colWidths.map(w => '─'.repeat(w + 2)).join('┼') + '┤\n';
+            
+            // 数据行
+            for (let i = 1; i < data.length; i++) {
+                table += '│' + data[i].map((cell, j) => 
+                    ` ${this.padString(cell || '', colWidths[j])} `
+                ).join('│') + '│\n';
+            }
+        }
+        
+        // 底部边框
+        table += '└' + colWidths.map(w => '─'.repeat(w + 2)).join('┴') + '┘';
+        
+        return table;
+    }
+    
+    calculateColumnWidths(data) {
+        if (!data || data.length === 0) return [];
+        
+        const maxCols = Math.max(...data.map(row => row.length));
+        const widths = new Array(maxCols).fill(0);
+        
+        data.forEach(row => {
+            row.forEach((cell, i) => {
+                if (cell) {
+                    widths[i] = Math.max(widths[i], this.getStringWidth(cell));
+                }
+            });
+        });
+        
+        return widths.map(w => Math.max(w, 6)); // 最小宽度6
+    }
+    
+    getStringWidth(str) {
+        let width = 0;
+        for (let char of str) {
+            // 简化的中文字符宽度计算
+            width += /[\u4e00-\u9fff]/.test(char) ? 2 : 1;
+        }
+        return width;
+    }
+    
+    padString(str, width) {
+        const strWidth = this.getStringWidth(str);
+        const padding = Math.max(0, width - strWidth);
+        return str + ' '.repeat(padding);
+    }
+    
+    displayResult(table) {
+        if (this.currentFormat === 'preview') {
+            this.outputArea.innerHTML = `<pre>${table}</pre>`;
+        } else {
+            this.outputArea.textContent = table;
+        }
+    }
+    
+    switchFormat(format) {
+        this.currentFormat = format;
+        
+        this.formatTabs.forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.format === format);
+        });
+        
+        if (this.lastGenerated) {
+            this.displayResult(this.lastGenerated);
+        }
+    }
+    
+    async copyResult() {
+        if (!this.lastGenerated) {
+            this.showAlert('请先生成表格');
+            return;
+        }
+        
+        try {
+            await navigator.clipboard.writeText(this.lastGenerated);
+            this.showAlert('已复制到剪贴板');
+        } catch (error) {
+            // 降级方案
+            const textArea = document.createElement('textarea');
+            textArea.value = this.lastGenerated;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            this.showAlert('已复制到剪贴板');
+        }
+    }
+    
+    clearAll() {
+        this.tableData.value = '';
+        this.outputArea.innerHTML = '';
+        this.lastGenerated = '';
+        this.showAlert('内容已清空');
+    }
+    
+    showAlert(message) {
+        const alert = document.createElement('div');
+        alert.textContent = message;
+        Object.assign(alert.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            background: '#10b981',
+            color: 'white',
+            padding: '12px 20px',
+            borderRadius: '8px',
+            zIndex: '10000',
+            fontSize: '14px',
+            fontWeight: '500'
+        });
+        
+        document.body.appendChild(alert);
+        
+        setTimeout(() => {
+            document.body.removeChild(alert);
+        }, 2000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new ASCIITableGenerator();
+});
+    </script>
+</body>
+</html>

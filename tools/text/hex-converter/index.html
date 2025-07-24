@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex转字符串工具</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.converter-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    padding: 30px;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.char-count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #6b7280;
+    padding: 0 5px;
+}
+
+.control-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 120px;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #10b981;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-swap {
+    background: #f59e0b;
+    color: white;
+    min-width: 50px;
+    padding: 12px;
+}
+
+.btn-swap:hover {
+    background: #d97706;
+    transform: rotate(180deg) translateY(2px);
+}
+
+.btn-copy {
+    background: #6366f1;
+    color: white;
+}
+
+.btn-copy:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.options-section {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.options-group {
+    background: #f9fafb;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+}
+
+.options-group h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 15px;
+}
+
+.option-item {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.option-item label {
+    font-size: 14px;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.option-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #667eea;
+}
+
+.option-item select {
+    padding: 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    padding: 30px;
+    background: #f9fafb;
+}
+
+.info-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid #e5e7eb;
+}
+
+.info-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 15px;
+}
+
+.info-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.info-card li {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.info-card li:before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #667eea;
+    font-weight: bold;
+}
+
+.info-card strong {
+    color: #374151;
+    font-weight: 600;
+}
+
+.example {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.example-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #f3f4f6;
+    border-radius: 8px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+}
+
+.example-item .label {
+    color: #6b7280;
+    font-weight: 600;
+    min-width: 80px;
+}
+
+.example-item .value {
+    color: #374151;
+    word-break: break-all;
+}
+
+/* 通知样式 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.success {
+    background: #10b981;
+}
+
+.notification.error {
+    background: #ef4444;
+}
+
+.notification.info {
+    background: #3b82f6;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .header {
+        padding: 20px;
+    }
+    
+    .header h1 {
+        font-size: 24px;
+    }
+    
+    .converter-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .control-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .btn-swap {
+        transform: rotate(90deg);
+    }
+    
+    .btn-swap:hover {
+        transform: rotate(270deg);
+    }
+    
+    .info-section {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .action-buttons {
+        order: -1;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 20px;
+    }
+    
+    .header p {
+        font-size: 14px;
+    }
+    
+    textarea {
+        height: 100px;
+        font-size: 13px;
+    }
+    
+    .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+    
+    .info-card {
+        padding: 20px;
+    }
+    
+    .example-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .example-item .label {
+        min-width: auto;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Hex转字符串工具</h1>
+            <p>十六进制编码与文本字符串的相互转换</p>
+        </div>
+        
+        <div class="converter-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="textInput">文本字符串</label>
+                    <textarea id="textInput" placeholder="输入文本字符串，例如：Hello World"></textarea>
+                    <div class="char-count">
+                        <span>字符数：</span><span id="textLength">0</span>
+                    </div>
+                </div>
+                
+                <div class="control-buttons">
+                    <button id="textToHexBtn" class="btn btn-primary">
+                        <span>⬇️</span> 转换为Hex
+                    </button>
+                    <button id="swapBtn" class="btn btn-swap" title="交换输入输出">
+                        <span>🔄</span>
+                    </button>
+                    <button id="hexToTextBtn" class="btn btn-secondary">
+                        <span>⬆️</span> 转换为文本
+                    </button>
+                </div>
+                
+                <div class="input-group">
+                    <label for="hexInput">十六进制字符串</label>
+                    <textarea id="hexInput" placeholder="输入十六进制字符串，例如：48656c6c6f20576f726c64"></textarea>
+                    <div class="char-count">
+                        <span>字符数：</span><span id="hexLength">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="options-section">
+                <div class="options-group">
+                    <h3>转换选项</h3>
+                    <div class="option-item">
+                        <label>
+                            <input type="checkbox" id="usePrefix" checked>
+                            包含0x前缀
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <label>
+                            <input type="checkbox" id="useSpaces">
+                            使用空格分隔
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <label>
+                            <input type="checkbox" id="upperCase">
+                            大写字母
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <label for="encoding">字符编码：</label>
+                        <select id="encoding">
+                            <option value="utf8">UTF-8</option>
+                            <option value="ascii">ASCII</option>
+                            <option value="latin1">Latin-1</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="copyTextBtn" class="btn btn-copy">
+                        <span>📋</span> 复制文本
+                    </button>
+                    <button id="copyHexBtn" class="btn btn-copy">
+                        <span>📋</span> 复制Hex
+                    </button>
+                    <button id="clearAllBtn" class="btn btn-danger">
+                        <span>🗑️</span> 清空全部
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <div class="info-card">
+                <h3>💡 使用说明</h3>
+                <ul>
+                    <li><strong>文本转Hex：</strong>将普通文本转换为十六进制编码</li>
+                    <li><strong>Hex转文本：</strong>将十六进制编码转换回可读文本</li>
+                    <li><strong>格式支持：</strong>支持带/不带0x前缀，支持空格分隔</li>
+                    <li><strong>编码方式：</strong>支持UTF-8、ASCII、Latin-1编码</li>
+                </ul>
+            </div>
+            
+            <div class="info-card">
+                <h3>📝 格式示例</h3>
+                <div class="example">
+                    <div class="example-item">
+                        <span class="label">文本：</span>
+                        <span class="value">Hello World</span>
+                    </div>
+                    <div class="example-item">
+                        <span class="label">普通Hex：</span>
+                        <span class="value">48656c6c6f20576f726c64</span>
+                    </div>
+                    <div class="example-item">
+                        <span class="label">带前缀：</span>
+                        <span class="value">0x48656c6c6f20576f726c64</span>
+                    </div>
+                    <div class="example-item">
+                        <span class="label">带空格：</span>
+                        <span class="value">48 65 6c 6c 6f 20 57 6f 72 6c 64</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+class HexConverter {
+    constructor() {
+        this.textInput = document.getElementById('textInput');
+        this.hexInput = document.getElementById('hexInput');
+        this.textToHexBtn = document.getElementById('textToHexBtn');
+        this.hexToTextBtn = document.getElementById('hexToTextBtn');
+        this.swapBtn = document.getElementById('swapBtn');
+        this.copyTextBtn = document.getElementById('copyTextBtn');
+        this.copyHexBtn = document.getElementById('copyHexBtn');
+        this.clearAllBtn = document.getElementById('clearAllBtn');
+        this.textLength = document.getElementById('textLength');
+        this.hexLength = document.getElementById('hexLength');
+        this.usePrefix = document.getElementById('usePrefix');
+        this.useSpaces = document.getElementById('useSpaces');
+        this.upperCase = document.getElementById('upperCase');
+        this.encoding = document.getElementById('encoding');
+        
+        this.init();
+    }
+    
+    init() {
+        // 绑定事件
+        this.textToHexBtn.addEventListener('click', () => this.textToHex());
+        this.hexToTextBtn.addEventListener('click', () => this.hexToText());
+        this.swapBtn.addEventListener('click', () => this.swapInputs());
+        this.copyTextBtn.addEventListener('click', () => this.copyText());
+        this.copyHexBtn.addEventListener('click', () => this.copyHex());
+        this.clearAllBtn.addEventListener('click', () => this.clearAll());
+        
+        // 输入监听
+        this.textInput.addEventListener('input', () => this.updateTextLength());
+        this.hexInput.addEventListener('input', () => this.updateHexLength());
+        
+        // 选项变化监听
+        [this.usePrefix, this.useSpaces, this.upperCase, this.encoding].forEach(element => {
+            element.addEventListener('change', () => this.onOptionsChange());
+        });
+        
+        // 初始化
+        this.updateTextLength();
+        this.updateHexLength();
+    }
+    
+    textToHex() {
+        const text = this.textInput.value;
+        if (!text) {
+            this.showNotification('请输入要转换的文本', 'error');
+            return;
+        }
+        
+        try {
+            let hex = '';
+            const encodingType = this.encoding.value;
+            
+            if (encodingType === 'utf8') {
+                // UTF-8 编码
+                const encoder = new TextEncoder();
+                const uint8Array = encoder.encode(text);
+                hex = Array.from(uint8Array).map(byte => 
+                    byte.toString(16).padStart(2, '0')
+                ).join('');
+            } else if (encodingType === 'ascii' || encodingType === 'latin1') {
+                // ASCII 或 Latin-1 编码
+                for (let i = 0; i < text.length; i++) {
+                    const charCode = text.charCodeAt(i);
+                    if (encodingType === 'ascii' && charCode > 127) {
+                        throw new Error(`字符 "${text[i]}" 不是ASCII字符`);
+                    }
+                    if (encodingType === 'latin1' && charCode > 255) {
+                        throw new Error(`字符 "${text[i]}" 不是Latin-1字符`);
+                    }
+                    hex += charCode.toString(16).padStart(2, '0');
+                }
+            }
+            
+            // 应用格式选项
+            hex = this.formatHex(hex);
+            
+            this.hexInput.value = hex;
+            this.updateHexLength();
+            this.showNotification('文本转换为Hex成功', 'success');
+        } catch (error) {
+            this.showNotification(`转换失败：${error.message}`, 'error');
+        }
+    }
+    
+    hexToText() {
+        let hex = this.hexInput.value.trim();
+        if (!hex) {
+            this.showNotification('请输入要转换的Hex字符串', 'error');
+            return;
+        }
+        
+        try {
+            // 清理Hex字符串
+            hex = this.cleanHex(hex);
+            
+            // 验证Hex格式
+            if (!/^[0-9a-fA-F]*$/.test(hex)) {
+                throw new Error('非法的十六进制字符');
+            }
+            
+            if (hex.length % 2 !== 0) {
+                throw new Error('Hex字符串长度必须为偶数');
+            }
+            
+            let text = '';
+            const encodingType = this.encoding.value;
+            
+            if (encodingType === 'utf8') {
+                // UTF-8 解码
+                const bytes = [];
+                for (let i = 0; i < hex.length; i += 2) {
+                    bytes.push(parseInt(hex.substr(i, 2), 16));
+                }
+                const uint8Array = new Uint8Array(bytes);
+                const decoder = new TextDecoder('utf-8');
+                text = decoder.decode(uint8Array);
+            } else {
+                // ASCII 或 Latin-1 解码
+                for (let i = 0; i < hex.length; i += 2) {
+                    const charCode = parseInt(hex.substr(i, 2), 16);
+                    text += String.fromCharCode(charCode);
+                }
+            }
+            
+            this.textInput.value = text;
+            this.updateTextLength();
+            this.showNotification('Hex转换为文本成功', 'success');
+        } catch (error) {
+            this.showNotification(`转换失败：${error.message}`, 'error');
+        }
+    }
+    
+    formatHex(hex) {
+        // 大小写转换
+        if (this.upperCase.checked) {
+            hex = hex.toUpperCase();
+        } else {
+            hex = hex.toLowerCase();
+        }
+        
+        // 添加空格分隔
+        if (this.useSpaces.checked) {
+            hex = hex.replace(/(..)/g, '$1 ').trim();
+        }
+        
+        // 添加0x前缀
+        if (this.usePrefix.checked) {
+            if (this.useSpaces.checked) {
+                hex = '0x' + hex.replace(/ /g, ' 0x');
+            } else {
+                hex = '0x' + hex;
+            }
+        }
+        
+        return hex;
+    }
+    
+    cleanHex(hex) {
+        // 移除所有0x前缀和空格
+        return hex.replace(/0x/gi, '').replace(/\s+/g, '');
+    }
+    
+    swapInputs() {
+        const textValue = this.textInput.value;
+        const hexValue = this.hexInput.value;
+        
+        this.textInput.value = hexValue;
+        this.hexInput.value = textValue;
+        
+        this.updateTextLength();
+        this.updateHexLength();
+        
+        this.showNotification('输入内容已交换', 'info');
+    }
+    
+    async copyText() {
+        const text = this.textInput.value;
+        if (!text) {
+            this.showNotification('没有可复制的文本内容', 'error');
+            return;
+        }
+        
+        try {
+            await navigator.clipboard.writeText(text);
+            this.showNotification('文本已复制到剪贴板', 'success');
+        } catch (error) {
+            // 降级方案
+            this.textInput.select();
+            document.execCommand('copy');
+            this.showNotification('文本已复制到剪贴板', 'success');
+        }
+    }
+    
+    async copyHex() {
+        const hex = this.hexInput.value;
+        if (!hex) {
+            this.showNotification('没有可复制的Hex内容', 'error');
+            return;
+        }
+        
+        try {
+            await navigator.clipboard.writeText(hex);
+            this.showNotification('Hex已复制到剪贴板', 'success');
+        } catch (error) {
+            // 降级方案
+            this.hexInput.select();
+            document.execCommand('copy');
+            this.showNotification('Hex已复制到剪贴板', 'success');
+        }
+    }
+    
+    clearAll() {
+        if (this.textInput.value || this.hexInput.value) {
+            this.textInput.value = '';
+            this.hexInput.value = '';
+            this.updateTextLength();
+            this.updateHexLength();
+            this.textInput.focus();
+            this.showNotification('全部内容已清空', 'info');
+        } else {
+            this.showNotification('内容已经是空的', 'info');
+        }
+    }
+    
+    updateTextLength() {
+        this.textLength.textContent = this.textInput.value.length;
+    }
+    
+    updateHexLength() {
+        this.hexLength.textContent = this.hexInput.value.length;
+    }
+    
+    onOptionsChange() {
+        // 如果有Hex内容，重新格式化
+        const hex = this.hexInput.value;
+        if (hex && /^(0x)?[0-9a-fA-F\s]*$/.test(hex)) {
+            const cleanedHex = this.cleanHex(hex);
+            if (cleanedHex) {
+                this.hexInput.value = this.formatHex(cleanedHex);
+                this.updateHexLength();
+            }
+        }
+    }
+    
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+}
+
+// 初始化工具
+document.addEventListener('DOMContentLoaded', () => {
+    new HexConverter();
+});
+    </script>
+</body>
+</html>

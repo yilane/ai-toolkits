@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摩斯电码工具</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.converter-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.input-section, .output-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+textarea:read-only {
+    background-color: #f9fafb;
+    color: #6b7280;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #10b981;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .header {
+        padding: 20px;
+    }
+    
+    .converter-container {
+        padding: 20px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📡 摩斯电码工具</h1>
+            <p>文本与摩斯电码的相互转换</p>
+        </div>
+        
+        <div class="converter-container">
+            <div class="input-section">
+                <label for="textInput">文本输入</label>
+                <textarea id="textInput" placeholder="输入文本，例如：Hello World"></textarea>
+                <button id="textToMorseBtn" class="btn btn-primary">转换为摩斯电码</button>
+            </div>
+            
+            <div class="output-section">
+                <label for="morseOutput">摩斯电码输出</label>
+                <textarea id="morseOutput" placeholder="摩斯电码结果..." readonly></textarea>
+                <div class="buttons">
+                    <button id="copyBtn" class="btn btn-secondary">复制结果</button>
+                    <button id="clearBtn" class="btn btn-danger">清空</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+class MorseCodeConverter {
+    constructor() {
+        this.textInput = document.getElementById('textInput');
+        this.morseOutput = document.getElementById('morseOutput');
+        this.textToMorseBtn = document.getElementById('textToMorseBtn');
+        this.copyBtn = document.getElementById('copyBtn');
+        this.clearBtn = document.getElementById('clearBtn');
+        
+        // 摩斯电码对照表
+        this.morseCode = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 
+            'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
+            'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
+            'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+            'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--',
+            'Z': '--..', '0': '-----', '1': '.----', '2': '..---', '3': '...--',
+            '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+            '9': '----.', ' ': '/', '.': '.-.-.-', ',': '--..--', '?': '..--..',
+            "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-',
+            '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.',
+            '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.',
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        this.textToMorseBtn.addEventListener('click', () => this.convertToMorse());
+        this.copyBtn.addEventListener('click', () => this.copyResult());
+        this.clearBtn.addEventListener('click', () => this.clearAll());
+    }
+    
+    convertToMorse() {
+        const text = this.textInput.value.toUpperCase();
+        if (!text.trim()) {
+            alert('请输入要转换的文本');
+            return;
+        }
+        
+        let morse = '';
+        for (let char of text) {
+            if (this.morseCode[char]) {
+                morse += this.morseCode[char] + ' ';
+            } else if (char === ' ') {
+                morse += '/ ';
+            }
+        }
+        
+        this.morseOutput.value = morse.trim();
+    }
+    
+    async copyResult() {
+        const result = this.morseOutput.value;
+        if (!result) {
+            alert('没有可复制的内容');
+            return;
+        }
+        
+        try {
+            await navigator.clipboard.writeText(result);
+            alert('已复制到剪贴板');
+        } catch (error) {
+            this.morseOutput.select();
+            document.execCommand('copy');
+            alert('已复制到剪贴板');
+        }
+    }
+    
+    clearAll() {
+        this.textInput.value = '';
+        this.morseOutput.value = '';
+        this.textInput.focus();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new MorseCodeConverter();
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中文简繁体转换工具</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.converter-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.input-section, .output-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.char-count {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 15px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+textarea:read-only {
+    background-color: #f9fafb;
+    color: #6b7280;
+}
+
+.control-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 16px;
+}
+
+.direction-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #10b981;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-copy {
+    background: #6366f1;
+    color: white;
+}
+
+.btn-copy:hover {
+    background: #4f46e5;
+    transform: translateY(-2px);
+}
+
+.btn-clear {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-clear:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+}
+
+.info-section {
+    background: #f3f4f6;
+    padding: 20px;
+    border-radius: 16px;
+    margin-top: 20px;
+}
+
+.info-section h3 {
+    font-size: 18px;
+    color: #374151;
+    margin-bottom: 10px;
+}
+
+.info-section p {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .header {
+        padding: 20px;
+    }
+    
+    .converter-container {
+        padding: 20px;
+    }
+    
+    .direction-buttons {
+        flex-direction: column;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🈳 中文简繁体转换工具</h1>
+            <p>支持中文简体字与繁体字的相互转换</p>
+        </div>
+        
+        <div class="converter-container">
+            <div class="input-section">
+                <div class="section-header">
+                    <label for="inputText">输入文本</label>
+                    <span class="char-count">字数：<span id="inputCount">0</span></span>
+                </div>
+                <textarea id="inputText" placeholder="请输入要转换的中文文本..."></textarea>
+            </div>
+            
+            <div class="control-section">
+                <div class="direction-buttons">
+                    <button id="toTraditionalBtn" class="btn btn-primary">
+                        <span>📝</span> 转为繁体
+                    </button>
+                    <button id="toSimplifiedBtn" class="btn btn-secondary">
+                        <span>📝</span> 转为简体
+                    </button>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="copyBtn" class="btn btn-copy">
+                        <span>📋</span> 复制结果
+                    </button>
+                    <button id="clearBtn" class="btn btn-clear">
+                        <span>🗑️</span> 清空
+                    </button>
+                </div>
+            </div>
+            
+            <div class="output-section">
+                <div class="section-header">
+                    <label for="outputText">转换结果</label>
+                    <span class="char-count">字数：<span id="outputCount">0</span></span>
+                </div>
+                <textarea id="outputText" readonly placeholder="转换结果将在这里显示..."></textarea>
+            </div>
+            
+            <div class="info-section">
+                <h3>📖 使用说明</h3>
+                <p>
+                    本工具支持中文简体字与繁体字的相互转换。基于常用汉字转换表，支持大部分常用字符的转换。
+                    请注意，由于简繁体字之间的复杂对应关系，某些字符可能无法完美转换，建议转换后进行人工校对。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+class ChineseConverter {
+    constructor() {
+        this.inputText = document.getElementById('inputText');
+        this.outputText = document.getElementById('outputText');
+        this.toTraditionalBtn = document.getElementById('toTraditionalBtn');
+        this.toSimplifiedBtn = document.getElementById('toSimplifiedBtn');
+        this.copyBtn = document.getElementById('copyBtn');
+        this.clearBtn = document.getElementById('clearBtn');
+        this.inputCount = document.getElementById('inputCount');
+        this.outputCount = document.getElementById('outputCount');
+        
+        // 简化的转换映射表
+        this.s2tMap = {
+            '国': '國', '学': '學', '会': '會', '说': '說', '来': '來',
+            '对': '對', '时': '時', '为': '為', '个': '個', '们': '們',
+            '这': '這', '那': '那', '的': '的', '了': '了', '人': '人',
+            '有': '有', '他': '他', '你': '你', '我': '我', '是': '是',
+            '不': '不', '在': '在', '了': '了', '上': '上', '要': '要',
+            '能': '能', '也': '也', '就': '就', '还': '還', '没': '沒',
+            '很': '很', '可': '可', '以': '以', '用': '用', '过': '過',
+            '去': '去', '得': '得', '自': '自', '已': '已', '从': '從',
+            '没': '沒', '还': '還', '过': '過', '这': '這', '们': '們',
+            '话': '話', '问': '問', '题': '題', '现': '現', '实': '實',
+            '应': '應', '该': '該', '经': '經', '验': '驗', '历': '歷',
+            '史': '史', '发': '發', '展': '展', '变': '變', '化': '化',
+            '开': '開', '始': '始', '结': '結', '束': '束', '进': '進',
+            '行': '行', '继': '繼', '续': '續', '停': '停', '止': '止',
+            '关': '關', '于': '於', '由': '由', '因': '因', '所': '所',
+            '以': '以', '方': '方', '式': '式', '方': '方', '法': '法',
+            '内': '內', '容': '容', '信': '信', '息': '息', '数': '數',
+            '据': '據', '资': '資', '料': '料', '文': '文', '件': '件',
+            '图': '圖', '片': '片', '音': '音', '频': '頻', '视': '視',
+            '频': '頻', '电': '電', '脑': '腦', '手': '手', '机': '機',
+            '网': '網', '络': '絡', '系': '系', '统': '統', '软': '軟',
+            '件': '件', '硬': '硬', '件': '件', '设': '設', '备': '備',
+            '工': '工', '具': '具', '技': '技', '术': '術', '科': '科',
+            '学': '學', '研': '研', '究': '究', '项': '項', '目': '目',
+            '计': '計', '划': '劃', '安': '安', '排': '排', '组': '組',
+            '织': '織', '管': '管', '理': '理', '处': '處', '理': '理',
+            '解': '解', '决': '決', '办': '辦', '法': '法', '措': '措',
+            '施': '施', '步': '步', '骤': '驟', '流': '流', '程': '程',
+            '标': '標', '准': '準', '规': '規', '则': '則', '制': '制',
+            '度': '度', '政': '政', '策': '策', '法': '法', '律': '律',
+            '条': '條', '例': '例', '规': '規', '定': '定', '要': '要',
+            '求': '求', '通': '通', '知': '知', '公': '公', '告': '告',
+            '声': '聲', '明': '明', '说': '說', '明': '明', '介': '介',
+            '绍': '紹', '描': '描', '述': '述', '详': '詳', '细': '細',
+            '简': '簡', '单': '單', '复': '復', '杂': '雜', '困': '困',
+            '难': '難', '容': '容', '易': '易', '简': '簡', '便': '便',
+            '快': '快', '速': '速', '慢': '慢', '长': '長', '短': '短',
+            '大': '大', '小': '小', '高': '高', '低': '低', '多': '多',
+            '少': '少', '新': '新', '旧': '舊', '老': '老', '年': '年',
+            '轻': '輕', '重': '重', '好': '好', '坏': '壞', '美': '美',
+            '丑': '醜', '正': '正', '确': '確', '错': '錯', '误': '誤',
+            '真': '真', '假': '假', '实': '實', '际': '際', '理': '理',
+            '论': '論', '实': '實', '践': '踐', '应': '應', '用': '用'
+        };
+        
+        // 创建反向映射表
+        this.t2sMap = {};
+        for (let [s, t] of Object.entries(this.s2tMap)) {
+            this.t2sMap[t] = s;
+        }
+        
+        this.init();
+    }
+    
+    init() {
+        this.toTraditionalBtn.addEventListener('click', () => this.convertToTraditional());
+        this.toSimplifiedBtn.addEventListener('click', () => this.convertToSimplified());
+        this.copyBtn.addEventListener('click', () => this.copyResult());
+        this.clearBtn.addEventListener('click', () => this.clearAll());
+        
+        this.inputText.addEventListener('input', () => this.updateCharCount());
+        this.outputText.addEventListener('input', () => this.updateOutputCount());
+        
+        this.updateCharCount();
+        this.updateOutputCount();
+    }
+    
+    convertToTraditional() {
+        const text = this.inputText.value;
+        if (!text.trim()) {
+            this.showAlert('请输入要转换的文本');
+            return;
+        }
+        
+        let result = '';
+        for (let char of text) {
+            result += this.s2tMap[char] || char;
+        }
+        
+        this.outputText.value = result;
+        this.updateOutputCount();
+        this.showAlert('已转换为繁体字');
+    }
+    
+    convertToSimplified() {
+        const text = this.inputText.value;
+        if (!text.trim()) {
+            this.showAlert('请输入要转换的文本');
+            return;
+        }
+        
+        let result = '';
+        for (let char of text) {
+            result += this.t2sMap[char] || char;
+        }
+        
+        this.outputText.value = result;
+        this.updateOutputCount();
+        this.showAlert('已转换为简体字');
+    }
+    
+    async copyResult() {
+        const result = this.outputText.value;
+        if (!result) {
+            this.showAlert('没有可复制的内容');
+            return;
+        }
+        
+        try {
+            await navigator.clipboard.writeText(result);
+            this.showAlert('已复制到剪贴板');
+        } catch (error) {
+            this.outputText.select();
+            document.execCommand('copy');
+            this.showAlert('已复制到剪贴板');
+        }
+    }
+    
+    clearAll() {
+        this.inputText.value = '';
+        this.outputText.value = '';
+        this.updateCharCount();
+        this.updateOutputCount();
+        this.inputText.focus();
+        this.showAlert('内容已清空');
+    }
+    
+    updateCharCount() {
+        this.inputCount.textContent = this.inputText.value.length;
+    }
+    
+    updateOutputCount() {
+        this.outputCount.textContent = this.outputText.value.length;
+    }
+    
+    showAlert(message) {
+        // 简单的提示实现
+        const alert = document.createElement('div');
+        alert.textContent = message;
+        Object.assign(alert.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            background: '#10b981',
+            color: 'white',
+            padding: '12px 20px',
+            borderRadius: '8px',
+            zIndex: '10000',
+            fontSize: '14px',
+            fontWeight: '500'
+        });
+        
+        document.body.appendChild(alert);
+        
+        setTimeout(() => {
+            document.body.removeChild(alert);
+        }, 2000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new ChineseConverter();
+});
+    </script>
+</body>
+</html>

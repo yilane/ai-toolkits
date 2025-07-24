@@ -110,18 +110,6 @@
       "version": "1.0.0"
     },
     {
-      "id": 7,
-      "name": "提升图片质量",
-      "description": "以高分辨率放大图像。轻松提升JPG和PNG图片的大小，同时保持原始质量。",
-      "icon": "📈",
-      "iconColor": "#10B981",
-      "category": "image",
-      "isNew": true,
-      "url": "./tools/image/enhancer/index.html",
-      "author": "官方",
-      "version": "1.0.0"
-    },
-    {
       "id": 8,
       "name": "去除背景",
       "description": "快速删除图像的背景，并保持高质量。快速检测到目标，并轻松地处理背景。",
@@ -146,18 +134,6 @@
       "version": "1.0.0"
     },
     {
-      "id": 10,
-      "name": "搞笑创意图片生成器",
-      "description": "通过一个简单的步骤，在线制作搞笑图片。选择你自己的模板，或者从流行的模板中选择。",
-      "icon": "😂",
-      "iconColor": "#DC2626",
-      "category": "ai",
-      "isNew": false,
-      "url": "#",
-      "author": "官方",
-      "version": "1.0.0"
-    },
-    {
       "id": 11,
       "name": "旋转一个图片",
       "description": "同时旋转多个JPG、PNG或GIF图片。每次只旋转其中数量的图片！",
@@ -166,18 +142,6 @@
       "category": "image",
       "isNew": false,
       "url": "./tools/image/rotator/index.html",
-      "author": "官方",
-      "version": "1.0.0"
-    },
-    {
-      "id": 12,
-      "name": "HTML转图片",
-      "description": "将HTML的网页转换为JPG或SVG。复制并粘贴网页的URL链接，然后单击。将其转换为图片。",
-      "icon": "📄",
-      "iconColor": "#F59E0B",
-      "category": "converter",
-      "isNew": false,
-      "url": "./tools/converter/html-to-image/index.html",
       "author": "官方",
       "version": "1.0.0"
     },
@@ -227,6 +191,126 @@
       "isNew": true,
       "url": "./tools/custom/json-formatter/index.html",
       "author": "原创",
+      "version": "1.0.0"
+    },
+    {
+      "id": 18,
+      "name": "PDF转JPG",
+      "description": "提取PDF文档中的所有图像文件，或将每一页转换为JPG图片。",
+      "icon": "📄",
+      "iconColor": "#EF4444",
+      "category": "converter",
+      "isNew": true,
+      "url": "./tools/converter/pdf-to-jpg/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 19,
+      "name": "JPG转PDF",
+      "description": "将您的图片转换为PDF文档，还可以调整方向和边距。",
+      "icon": "🖼️",
+      "iconColor": "#10B981",
+      "category": "converter",
+      "isNew": true,
+      "url": "./tools/converter/jpg-to-pdf/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 20,
+      "name": "Markdown编辑器",
+      "description": "支持实时预览的Markdown编辑器，可导出文档和复制HTML。",
+      "icon": "📝",
+      "iconColor": "#6366F1",
+      "category": "text",
+      "isNew": true,
+      "url": "./tools/text/markdown-editor/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 21,
+      "name": "文字加密解密",
+      "description": "支持URL编码、Base64、MD5、SHA1、SHA256等多种加密解密方式。",
+      "icon": "🔐",
+      "iconColor": "#8B5CF6",
+      "category": "text",
+      "isNew": true,
+      "url": "./tools/text/encrypt-decrypt/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 22,
+      "name": "Hex转字符串",
+      "description": "十六进制编码与文本字符串的相互转换，支持多种编码格式。",
+      "icon": "🔄",
+      "iconColor": "#F59E0B",
+      "category": "text",
+      "isNew": true,
+      "url": "./tools/text/hex-converter/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 23,
+      "name": "摩斯电码",
+      "description": "摩斯电码与文本的相互转换，支持音频播放和可视化显示。",
+      "icon": "📡",
+      "iconColor": "#10B981",
+      "category": "text",
+      "isNew": true,
+      "url": "./tools/text/morse-code/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 24,
+      "name": "中文简繁体转换",
+      "description": "中文简体字与繁体字的相互转换，支持批量处理。",
+      "icon": "🈳",
+      "iconColor": "#EF4444",
+      "category": "text",
+      "isNew": true,
+      "url": "./tools/text/chinese-converter/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 25,
+      "name": "数字转大写",
+      "description": "阿拉伯数字转换为中文大写数字，支持金额格式。",
+      "icon": "🔢",
+      "iconColor": "#3B82F6",
+      "category": "text",
+      "isNew": true,
+      "url": "./tools/text/number-converter/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 26,
+      "name": "ASCII表格生成",
+      "description": "生成ASCII表格和Markdown表格，支持自定义格式。",
+      "icon": "📊",
+      "iconColor": "#059669",
+      "category": "text",
+      "isNew": true,
+      "url": "./tools/text/ascii-table/index.html",
+      "author": "官方",
+      "version": "1.0.0"
+    },
+    {
+      "id": 27,
+      "name": "文本对比",
+      "description": "比较两个文本的差异，高亮显示不同之处。",
+      "icon": "🔍",
+      "iconColor": "#7C3AED",
+      "category": "text",
+      "isNew": true,
+      "url": "./tools/text/text-diff/index.html",
+      "author": "官方",
       "version": "1.0.0"
     }
   ]

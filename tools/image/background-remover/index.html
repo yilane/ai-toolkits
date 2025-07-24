@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>背景移除工具 - AI工具集</title>
-    
+    <script type="module">
+        import removeBackground from 'https://esm.sh/@imgly/background-removal';
+        
+        // Make it available globally and signal it's ready
+        window.removeBackground = removeBackground;
+        window.removeBackgroundReady = true;
+        console.log('removeBackground loaded:', typeof removeBackground);
+        
+        // Dispatch event to signal library is ready
+        window.dispatchEvent(new Event('removeBackgroundReady'));
+    </script>
 
         <style>
 /* base/variables.css */
@@ -4514,49 +4524,100 @@ class BackgroundRemover {
     }
 
     async processFile(file) {
-        document.getElementById('progressOverlay').style.display = 'flex';
-        
-        
-        await new Promise(resolve => setTimeout(resolve, 3000));
-        
-        const reader = new FileReader();
-        reader.onload = (e) => {
+        try {
+            document.getElementById('progressOverlay').style.display = 'flex';
+            const progressText = document.getElementById('progressText');
+            
+            // 更新进度文本
+            progressText.textContent = '正在加载AI模型...';
+            
+            // 检查文件大小（限制为10MB以避免内存问题）
+            if (file.size > 10 * 1024 * 1024) {
+                alert('文件过大，请选择小于10MB的图片');
+                document.getElementById('progressOverlay').style.display = 'none';
+                return;
+            }
+            
+            // 创建图片URL
+            const imageUrl = URL.createObjectURL(file);
             const img = new Image();
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                
-                
-                ctx.drawImage(img, 0, 0);
-                
-                canvas.toBlob((blob) => {
+            
+            img.onload = async () => {
+                try {
+                    progressText.textContent = '正在处理图像，请稍候...';
+                    
+                    // 等待背景移除库加载完成
+                    if (!window.removeBackgroundReady) {
+                        await new Promise(resolve => {
+                            window.addEventListener('removeBackgroundReady', resolve, { once: true });
+                        });
+                    }
+                    
+                    // 使用背景移除库
+                    const blob = await removeBackground(imageUrl);
+                    
+                    // 创建预览URL
+                    const resultUrl = URL.createObjectURL(blob);
+                    
+                    // 保存结果
                     this.resultBlob = blob;
-                    this.showResult(canvas.toDataURL());
+                    this.showResult(resultUrl);
+                    
+                    // 清理资源
+                    URL.revokeObjectURL(imageUrl);
+                    
+                    progressText.textContent = '处理完成！';
+                    setTimeout(() => {
+                        document.getElementById('progressOverlay').style.display = 'none';
+                    }, 500);
+                    
+                } catch (error) {
+                    console.error('背景移除失败:', error);
+                    alert('背景移除失败，请尝试其他图片或稍后重试');
                     document.getElementById('progressOverlay').style.display = 'none';
-                }, 'image/png');
+                }
             };
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
+            
+            img.onerror = () => {
+                alert('图片加载失败，请选择有效的图片文件');
+                document.getElementById('progressOverlay').style.display = 'none';
+            };
+            
+            img.src = imageUrl;
+            
+        } catch (error) {
+            console.error('处理文件时发生错误:', error);
+            alert('处理失败，请重试');
+            document.getElementById('progressOverlay').style.display = 'none';
+        }
     }
 
     showResult(dataUrl) {
         document.getElementById('previewSection').style.display = 'block';
         const imageList = document.getElementById('imageList');
+        
+        // 获取文件信息用于显示
+        const fileSize = this.resultBlob ? (this.resultBlob.size / 1024).toFixed(1) + ' KB' : '未知';
+        
         imageList.innerHTML = `
             <div class="image-item">
-                <img class="image-preview" src="${dataUrl}" alt="处理结果">
+                <img class="image-preview" src="${dataUrl}" alt="背景移除结果">
                 <div class="image-info">
-                    <div class="image-name">背景已移除</div>
+                    <div class="image-name">✅ 背景已成功移除</div>
                     <div class="image-stats">
-                        <span>格式: PNG</span>
-                        <span>透明背景</span>
+                        <span>📄 格式: PNG</span>
+                        <span>🎨 透明背景</span>
+                        <span>📊 大小: ${fileSize}</span>
                     </div>
                 </div>
             </div>
         `;
+        
+        // 滚动到结果区域
+        document.getElementById('previewSection').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
     }
 
     download() {
@@ -4571,6 +4632,17 @@ class BackgroundRemover {
     clear() {
         document.getElementById('previewSection').style.display = 'none';
         document.getElementById('fileInput').value = '';
+        
+        // 清理URL对象以释放内存
+        if (this.resultBlob) {
+            const imgs = document.querySelectorAll('#imageList img');
+            imgs.forEach(img => {
+                if (img.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(img.src);
+                }
+            });
+        }
+        
         this.resultBlob = null;
     }
 }
